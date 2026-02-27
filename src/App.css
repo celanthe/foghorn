@@ -1,0 +1,301 @@
+/* Foghorn - Coastal, minimal, grief-aware design */
+
+:root {
+  /* Color Palette - Fog grey, ocean blue, lighthouse beacon */
+  --fog-grey: #E8E9EB;
+  --deep-ocean: #2C3E50;
+  --lighthouse-beacon: #F39C12;
+  --charcoal: #2C3E50;
+  --soft-white: #F7F9FB;
+  --sea-green: #27AE60;
+  --muted-red: #E74C3C;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background: var(--fog-grey);
+  color: var(--charcoal);
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--space-md);
+}
+
+.app {
+  background: var(--soft-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--deep-ocean);
+  color: white;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-family: Georgia, serif;
+  letter-spacing: 0.5px;
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-button:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.refresh-button:active {
+  transform: rotate(180deg);
+}
+
+.refresh-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Main Content */
+.main {
+  padding: var(--space-lg);
+}
+
+/* Weather Display */
+.weather {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--fog-grey);
+  border-radius: 8px;
+}
+
+.weather-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.weather-info {
+  flex: 1;
+  text-align: left;
+}
+
+.weather-location {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: var(--space-xs);
+}
+
+.weather-condition {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.weather-description {
+  font-size: 0.875rem;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.weather-temp {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.temp-value {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.temp-feels {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* Foghorn Trigger Indicator */
+.foghorn-trigger {
+  background: var(--lighthouse-beacon);
+  color: white;
+  padding: var(--space-sm);
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: var(--space-lg);
+  font-weight: 500;
+}
+
+/* Play Foghorn Button */
+.play-button {
+  width: 100%;
+  padding: var(--space-md);
+  background: var(--deep-ocean);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  transition: background 0.2s, transform 0.1s;
+  margin-bottom: var(--space-lg);
+}
+
+.play-button:hover {
+  background: #1e2d3d;
+}
+
+.play-button:active {
+  transform: scale(0.98);
+}
+
+.play-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.play-icon {
+  font-size: 1.5rem;
+}
+
+/* Historical Section */
+.historical-section {
+  padding: var(--space-md);
+  background: var(--fog-grey);
+  border-radius: 8px;
+  margin-bottom: var(--space-md);
+}
+
+.historical-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: var(--space-xs);
+}
+
+.historical-info {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: #999;
+}
+
+/* Weather Details */
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--space-sm);
+  background: var(--fog-grey);
+  border-radius: 8px;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Loading & Error States */
+.loading,
+.error {
+  padding: var(--space-xl);
+  text-align: center;
+  color: #666;
+}
+
+.error {
+  color: var(--muted-red);
+}
+
+.error .hint {
+  margin-top: var(--space-sm);
+  font-size: 0.875rem;
+  color: #999;
+}
+
+.error-banner {
+  padding: var(--space-sm);
+  background: var(--muted-red);
+  color: white;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .app {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .weather {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .weather-info {
+    text-align: center;
+  }
+
+  .weather-temp {
+    text-align: center;
+  }
+}
