@@ -3,27 +3,10 @@
  * Free tier: 1000 calls/day, 60 calls/minute
  */
 
+import { shouldPlayFoghorn, getWindDirection } from '../../core/utils.js';
+
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-
-/**
- * Weather condition types that trigger foghorn
- */
-export const FOGHORN_TRIGGERS = {
-  FOG: ['Mist', 'Fog', 'Haze'],
-  RAIN: ['Rain', 'Drizzle'],
-  SLEET: ['Sleet'],
-  SNOW: ['Snow'],
-};
-
-/**
- * Check if weather condition should trigger foghorn
- */
-export function shouldPlayFoghorn(weatherCondition) {
-  return Object.values(FOGHORN_TRIGGERS).some(triggers =>
-    triggers.includes(weatherCondition)
-  );
-}
 
 /**
  * Get current weather for location
@@ -41,6 +24,9 @@ export async function getCurrentWeather(lat, lon) {
   const response = await fetch(url);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Weather API error: 401');
+    }
     throw new Error(`Weather API error: ${response.status}`);
   }
 
@@ -60,15 +46,6 @@ export async function getCurrentWeather(lat, lon) {
     timestamp: new Date(data.dt * 1000),
     shouldPlayFoghorn: shouldPlayFoghorn(data.weather[0].main),
   };
-}
-
-/**
- * Convert wind degrees to cardinal direction
- */
-function getWindDirection(degrees) {
-  const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-  const index = Math.round(degrees / 45) % 8;
-  return directions[index];
 }
 
 /**

@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "Foghorn",
+    "tagline": "Weather rituals for grief processing"
+  },
+  "weather": {
+    "loading": "Loading weather...",
+    "error": "Could not load weather",
+    "errorHint": "Make sure to add your OpenWeatherMap API key to .env",
+    "refresh": "Refresh weather",
+    "location": "Location",
+    "condition": "Condition",
+    "temperature": "Temperature",
+    "feelsLike": "Feels like {temp}°",
+    "wind": "Wind",
+    "humidity": "Humidity",
+    "windSpeed": "{speed} mph {direction}"
+  },
+  "foghorn": {
+    "trigger": "⚠️ Foghorn weather detected",
+    "playButton": "Play Foghorn",
+    "playing": "Playing Foghorn...",
+    "error": "Could not play foghorn sound",
+    "noAudio": "Foghorn audio not loaded yet"
+  },
+  "historical": {
+    "label": "Similar to:",
+    "placeholder": "Historical matching coming soon...",
+    "match": "Falmouth, MA • {date}",
+    "description": "{condition}, {temp}°F, {wind}"
+  },
+  "phases": {
+    "active": "Active Grief",
+    "processing": "Processing",
+    "integration": "Integration",
+    "memorial": "Memorial"
+  },
+  "memory": {
+    "prompt": "What do you remember?",
+    "voiceNote": "Record voice note",
+    "textNote": "Write a note",
+    "photo": "Add photo",
+    "save": "Save memory",
+    "cancel": "Cancel"
+  },
+  "settings": {
+    "title": "Settings",
+    "location": "Location",
+    "notificationTime": "Morning Check-in Time",
+    "weatherTriggers": "Play Foghorn On:",
+    "fog": "Fog",
+    "rain": "Rain",
+    "sleet": "Sleet",
+    "snow": "Snow",
+    "clouds": "Clouds only",
+    "currentPhase": "Current Phase",
+    "frequencyLevel": "Frequency Level",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low",
+    "griefPrompts": "Grief Prompts",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "errors": {
+    "apiKey": "OpenWeatherMap API key not configured",
+    "network": "Network error - check your connection",
+    "location": "Could not get your location",
+    "audio": "Could not load foghorn audio",
+    "unknown": "An unexpected error occurred"
+  }
+}
