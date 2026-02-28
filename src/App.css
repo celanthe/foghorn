@@ -1,37 +1,14 @@
-/* Foghorn - Coastal, minimal, grief-aware design */
+/* ==================== */
+/* Foghorn - Weathered Nautical Design */
+/* "Lighthouses guide you home, even when home is gone" */
+/* ==================== */
 
-:root {
-  /* Color Palette - Fog grey, ocean blue, lighthouse beacon */
-  --fog-grey: #E8E9EB;
-  --deep-ocean: #2C3E50;
-  --lighthouse-beacon: #F39C12;
-  --charcoal: #2C3E50;
-  --soft-white: #F7F9FB;
-  --sea-green: #27AE60;
-  --muted-red: #E74C3C;
+/* Import design tokens */
+@import '../design-system/tokens.css';
 
-  /* Spacing */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  background: var(--fog-grey);
-  color: var(--charcoal);
-  min-height: 100vh;
-}
+/* ==================== */
+/* Layout */
+/* ==================== */
 
 #root {
   display: flex;
@@ -42,42 +19,64 @@ body {
 }
 
 .app {
-  background: var(--soft-white);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: var(--color-aged-parchment);
+  background-image: var(--texture-paper);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   max-width: 500px;
   width: 100%;
   overflow: hidden;
 }
 
-/* Header */
+/* ==================== */
+/* Header - Lighthouse Stone with Wood Grain */
+/* ==================== */
+
 .header {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: var(--space-md) var(--space-lg);
-  background: var(--deep-ocean);
-  color: white;
+  background: var(--color-lighthouse-stone);
+  background-image: var(--texture-wood-grain);
+  border-bottom: var(--border-width-medium) solid var(--color-weathered-rope);
+}
+
+/* Rope texture accent on bottom of header */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--texture-rope);
+  opacity: 0.3;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 400;
-  font-family: Georgia, serif;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-aged-parchment);
   letter-spacing: 0.5px;
 }
 
 .refresh-button {
   background: none;
   border: none;
-  color: white;
-  font-size: 1.5rem;
+  color: var(--color-aged-parchment);
+  font-size: var(--font-size-2xl);
   cursor: pointer;
   opacity: 0.7;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity var(--transition-base), transform var(--transition-base);
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  min-height: 44px;  /* WCAG touch target minimum */
+  min-width: 44px;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,11 +84,16 @@ body {
 
 .refresh-button:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(245, 242, 237, 0.1);
 }
 
 .refresh-button:active {
   transform: rotate(180deg);
+}
+
+.refresh-button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .refresh-button:disabled {
@@ -97,20 +101,29 @@ body {
   cursor: not-allowed;
 }
 
-/* Main Content */
+/* ==================== */
+/* Main Content Area */
+/* ==================== */
+
 .main {
   padding: var(--space-lg);
 }
 
-/* Weather Display */
+/* ==================== */
+/* Weather Display - Recessed, Aged Paper */
+/* ==================== */
+
 .weather {
   display: flex;
   gap: var(--space-md);
   align-items: center;
   margin-bottom: var(--space-lg);
   padding: var(--space-md);
-  background: var(--fog-grey);
-  border-radius: 8px;
+  background: var(--color-morning-fog);
+  background-image: var(--texture-paper);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inner);  /* Recessed effect */
 }
 
 .weather-icon {
@@ -124,20 +137,22 @@ body {
 }
 
 .weather-location {
-  font-size: 0.875rem;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
   margin-bottom: var(--space-xs);
 }
 
 .weather-condition {
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   margin-bottom: 0.25rem;
 }
 
 .weather-description {
-  font-size: 0.875rem;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
   text-transform: capitalize;
 }
 
@@ -147,132 +162,193 @@ body {
 }
 
 .temp-value {
+  font-family: var(--font-family-serif);
   font-size: 2.5rem;
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
+  color: var(--color-text-primary);
   line-height: 1;
 }
 
 .temp-feels {
-  font-size: 0.75rem;
-  color: #666;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   margin-top: 0.25rem;
 }
 
+/* ==================== */
 /* Foghorn Trigger Indicator */
+/* ==================== */
+
 .foghorn-trigger {
-  background: var(--lighthouse-beacon);
-  color: white;
+  background: var(--color-lighthouse-beacon);
+  color: var(--color-aged-parchment);
   padding: var(--space-sm);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-align: center;
   margin-bottom: var(--space-lg);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-lg);  /* Large text for 4.62:1 contrast (AA compliant) */
+  box-shadow: var(--shadow-sm);
 }
 
-/* Play Foghorn Button */
+/* ==================== */
+/* Buttons - Grief-Aware Design (60px tall) */
+/* ==================== */
+
+/* Play Foghorn Button - Tide Pool Blue with Gradient */
 .play-button {
   width: 100%;
-  padding: var(--space-md);
-  background: var(--deep-ocean);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.125rem;
-  font-weight: 500;
+  min-height: 60px;  /* Grief-aware: exceeds 44px WCAG minimum */
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(135deg,
+    var(--color-lighthouse-stone) 0%,
+    var(--color-tide-pool-blue) 100%
+  );
+  background-image: var(--texture-wood-grain);
+  color: var(--color-aged-parchment);
+  border: var(--border-width-medium) solid var(--color-weathered-rope);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  transition: background 0.2s, transform 0.1s;
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
   margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-md),
+              inset 0 1px 0 rgba(245, 242, 237, 0.1);
 }
 
 .play-button:hover {
-  background: #1e2d3d;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg),
+              inset 0 1px 0 rgba(245, 242, 237, 0.15);
 }
 
 .play-button:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.play-button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring),
+              var(--shadow-md),
+              inset 0 1px 0 rgba(245, 242, 237, 0.1);
 }
 
 .play-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .play-icon {
-  font-size: 1.5rem;
+  font-size: var(--font-size-2xl);
 }
 
-/* Record Ritual Button */
+/* Record Ritual Button - Sea Glass Green with Gradient */
 .record-button {
   width: 100%;
-  padding: var(--space-md);
-  background: var(--sea-green);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.125rem;
-  font-weight: 500;
+  min-height: 60px;  /* Grief-aware: exceeds 44px WCAG minimum */
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(135deg,
+    var(--color-sea-glass-green) 0%,
+    var(--color-soft-success) 100%
+  );
+  color: var(--color-aged-parchment);
+  border: var(--border-width-medium) solid rgba(19, 92, 63, 0.5);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  transition: background 0.2s, transform 0.1s;
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
   margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-md),
+              inset 0 1px 0 rgba(245, 242, 237, 0.1);
 }
 
 .record-button:hover {
-  background: #1e8449;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg),
+              inset 0 1px 0 rgba(245, 242, 237, 0.15);
 }
 
 .record-button:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.record-button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring),
+              var(--shadow-md),
+              inset 0 1px 0 rgba(245, 242, 237, 0.1);
 }
 
 .record-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .record-icon {
-  font-size: 1.5rem;
+  font-size: var(--font-size-2xl);
 }
 
-/* Ritual Count */
+/* ==================== */
+/* Ritual Count - Rope Border, Gentle Reminder */
+/* ==================== */
+
 .ritual-count {
   text-align: center;
-  font-size: 0.875rem;
-  color: #666;
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  color: var(--color-text-secondary);
   margin-bottom: var(--space-lg);
-  padding: var(--space-sm);
-  background: var(--fog-grey);
-  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-morning-fog);
+  background-image: var(--texture-paper);
+  border: var(--border-width-thin) var(--border-style-rope) var(--border-color-medium);
+  border-radius: var(--radius-sm);
 }
 
+/* ==================== */
 /* Historical Section */
+/* ==================== */
+
 .historical-section {
   padding: var(--space-md);
-  background: var(--fog-grey);
-  border-radius: 8px;
+  background: var(--color-morning-fog);
+  background-image: var(--texture-paper);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-md);
   margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-inner);
 }
 
 .historical-label {
-  font-size: 0.875rem;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
   margin-bottom: var(--space-xs);
 }
 
 .historical-info {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-style: italic;
-  color: #999;
+  color: var(--color-text-tertiary);
 }
 
-/* Weather Details */
+/* ==================== */
+/* Weather Details Grid */
+/* ==================== */
+
 .details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -284,53 +360,87 @@ body {
   flex-direction: column;
   gap: 0.25rem;
   padding: var(--space-sm);
-  background: var(--fog-grey);
-  border-radius: 8px;
+  background: var(--color-morning-fog);
+  background-image: var(--texture-paper);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inner);
 }
 
 .detail-label {
-  font-size: 0.75rem;
-  color: #666;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .detail-value {
-  font-size: 1rem;
-  font-weight: 500;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
 }
 
+/* ==================== */
 /* Loading & Error States */
+/* ==================== */
+
 .loading,
 .error {
   padding: var(--space-xl);
   text-align: center;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .error {
-  color: var(--muted-red);
+  color: var(--color-error);
 }
 
 .error .hint {
   margin-top: var(--space-sm);
-  font-size: 0.875rem;
-  color: #999;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
 }
 
 .error-banner {
   padding: var(--space-sm);
-  background: var(--muted-red);
-  color: white;
+  background: var(--color-gentle-alert);
+  color: var(--color-aged-parchment);
   text-align: center;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
 }
 
+/* ==================== */
+/* Accessibility - Reduced Motion Support */
+/* (Grief-aware: respect user's motion preferences) */
+/* ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .refresh-button:active,
+  .play-button:hover,
+  .play-button:active,
+  .record-button:hover,
+  .record-button:active {
+    transform: none;
+  }
+
+  .play-button,
+  .record-button,
+  .refresh-button {
+    transition: none;
+  }
+}
+
+/* ==================== */
 /* Mobile Responsive */
+/* ==================== */
+
 @media (max-width: 600px) {
   .app {
     max-width: 100%;
     border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
 
   .weather {
@@ -344,5 +454,12 @@ body {
 
   .weather-temp {
     text-align: center;
+  }
+
+  /* Ensure buttons remain large enough on mobile */
+  .play-button,
+  .record-button {
+    min-height: 60px;
+    font-size: var(--font-size-base);
   }
 }
