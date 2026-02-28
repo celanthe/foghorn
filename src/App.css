@@ -205,6 +205,53 @@ body {
   font-size: 1.5rem;
 }
 
+/* Record Ritual Button */
+.record-button {
+  width: 100%;
+  padding: var(--space-md);
+  background: var(--sea-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  transition: background 0.2s, transform 0.1s;
+  margin-bottom: var(--space-md);
+}
+
+.record-button:hover {
+  background: #1e8449;
+}
+
+.record-button:active {
+  transform: scale(0.98);
+}
+
+.record-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.record-icon {
+  font-size: 1.5rem;
+}
+
+/* Ritual Count */
+.ritual-count {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: var(--space-lg);
+  padding: var(--space-sm);
+  background: var(--fog-grey);
+  border-radius: 8px;
+}
+
 /* Historical Section */
 .historical-section {
   padding: var(--space-md);

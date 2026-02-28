@@ -35,6 +35,15 @@
     "integration": "Integration",
     "memorial": "Memorial"
   },
+  "ritual": {
+    "recordButton": "Record Ritual",
+    "recording": "Recording...",
+    "recorded": "Ritual Recorded",
+    "count": "{count} rituals recorded",
+    "todayCount": "{count} today",
+    "error": "Could not save ritual",
+    "success": "Ritual saved locally"
+  },
   "memory": {
     "prompt": "What do you remember?",
     "voiceNote": "Record voice note",
