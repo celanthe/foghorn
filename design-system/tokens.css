@@ -47,47 +47,37 @@
   --color-error: var(--color-gentle-alert);
 
   /* ==================== */
-  /* Weathered Textures - CSS Gradients */
+  /* Weathered Textures - Organic Image-Based */
   /* ==================== */
 
-  /* Subtle paper texture (barely visible, adds warmth) */
-  --texture-paper: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(139, 115, 85, 0.01) 2px,
-    rgba(139, 115, 85, 0.01) 4px
-  );
+  /* Subtle paper texture (aged parchment grain) */
+  /* Download: See TEXTURE_DOWNLOADS.md for sourcing instructions */
+  --texture-paper: url('/textures/paper-grain.jpg');
 
-  /* Wood grain texture (for headers, buttons) */
-  --texture-wood-grain: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 1px,
-    rgba(139, 115, 85, 0.03) 1px,
-    rgba(139, 115, 85, 0.03) 2px
-  );
+  /* Wood grain texture (weathered coastal wood) */
+  /* Download: See TEXTURE_DOWNLOADS.md for sourcing instructions */
+  --texture-wood-grain: url('/textures/wood-grain.jpg');
 
-  /* Rope texture (for decorative accents) */
-  --texture-rope: repeating-linear-gradient(
-    90deg,
-    var(--color-weathered-rope) 0px,
-    var(--color-weathered-rope) 4px,
-    transparent 4px,
-    transparent 8px
-  );
+  /* Rope texture (natural hemp/sisal rope) */
+  /* Download: See TEXTURE_DOWNLOADS.md for sourcing instructions */
+  --texture-rope: url('/textures/rope-texture.jpg');
+
+  /* Texture opacity controls (adjusted for subtle effect) */
+  --texture-opacity-subtle: 0.08;   /* Subtle but visible */
+  --texture-opacity-medium: 0.15;   /* Gentle presence */
+  --texture-opacity-strong: 0.25;   /* Noticeable but not dominant */
 
   /* ==================== */
   /* Rope-Style Borders */
   /* ==================== */
 
   --border-style-rope: dashed;
-  --border-width-thin: 1px;
-  --border-width-medium: 2px;
-  --border-width-thick: 3px;
-  --border-color-subtle: rgba(139, 115, 85, 0.15);
-  --border-color-medium: rgba(139, 115, 85, 0.25);
-  --border-color-strong: rgba(139, 115, 85, 0.4);
+  --border-width-thin: 2px;
+  --border-width-medium: 3px;
+  --border-width-thick: 4px;
+  --border-color-subtle: rgba(139, 115, 85, 0.35);
+  --border-color-medium: rgba(139, 115, 85, 0.5);
+  --border-color-strong: rgba(139, 115, 85, 0.6);
 
   /* ==================== */
   /* Grief-Aware Spacing */
@@ -104,8 +94,8 @@
   /* Typography */
   /* ==================== */
 
-  /* Font Families */
-  --font-family-serif: 'Crimson Text', Georgia, 'Times New Roman', serif;
+  /* Font Families - Nautical & Accessible */
+  --font-family-serif: 'Merriweather', 'Crimson Text', Georgia, serif;
   --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
                       'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
                       'Helvetica Neue', sans-serif;
@@ -181,14 +171,50 @@
 }
 
 body {
-  font-family: var(--font-family-sans);
-  background: var(--color-background);
-  background-image: var(--texture-paper);
-  color: var(--color-text-primary);
+  font-family: var(--font-family-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  background-color: var(--color-background, #E5E2DB);
+  background-image: url('/images/ocean-waves.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--color-text-primary, #1C252B);
   min-height: 100vh;
   line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Warm overlay to tone down the ocean and improve contrast */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom,
+    rgba(229, 226, 219, 0.85) 0%,
+    rgba(229, 226, 219, 0.75) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Very subtle paper texture overlay on body */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-paper);
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-subtle);
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ==================== */

@@ -19,14 +19,31 @@
 }
 
 .app {
-  background: var(--color-aged-parchment);
-  background-image: var(--texture-paper);
+  background-color: rgba(245, 242, 237, 0.95);
   border: var(--border-width-thin) solid var(--border-color-subtle);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 8px 32px rgba(28, 37, 43, 0.3);
   max-width: 500px;
   width: 100%;
   overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+/* Subtle paper texture overlay */
+.app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-paper);
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-subtle);
+  pointer-events: none;
+  border-radius: var(--radius-lg);
 }
 
 /* ==================== */
@@ -39,21 +56,38 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-md) var(--space-lg);
-  background: var(--color-lighthouse-stone);
-  background-image: var(--texture-wood-grain);
+  background-color: var(--color-lighthouse-stone);
   border-bottom: var(--border-width-medium) solid var(--color-weathered-rope);
+}
+
+/* Subtle wood grain texture on header */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-wood-grain);
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-medium);
+  pointer-events: none;
 }
 
 /* Rope texture accent on bottom of header */
 .header::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: -3px;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--texture-rope);
-  opacity: 0.3;
+  height: 4px;
+  background-color: var(--color-weathered-rope);
+  background-image: var(--texture-rope);
+  background-size: 64px 64px;
+  background-repeat: repeat;
+  opacity: 0.8;
 }
 
 .title {
@@ -62,6 +96,8 @@
   font-weight: var(--font-weight-normal);
   color: var(--color-aged-parchment);
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
 }
 
 .refresh-button {
@@ -80,6 +116,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .refresh-button:hover {
@@ -107,6 +145,8 @@
 
 .main {
   padding: var(--space-lg);
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================== */
@@ -119,21 +159,41 @@
   align-items: center;
   margin-bottom: var(--space-lg);
   padding: var(--space-md);
-  background: var(--color-morning-fog);
-  background-image: var(--texture-paper);
+  background-color: var(--color-morning-fog);
   border: var(--border-width-thin) solid var(--border-color-subtle);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-inner);  /* Recessed effect */
+  position: relative;
+}
+
+/* Subtle paper texture on weather card */
+.weather::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-paper);
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-subtle);
+  pointer-events: none;
+  border-radius: var(--radius-md);
 }
 
 .weather-icon {
   font-size: 3rem;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .weather-info {
   flex: 1;
-  text-align: left;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .weather-location {
@@ -159,6 +219,8 @@
 .weather-temp {
   text-align: right;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .temp-value {
@@ -195,18 +257,16 @@
 /* Buttons - Grief-Aware Design (60px tall) */
 /* ==================== */
 
-/* Play Foghorn Button - Tide Pool Blue with Gradient */
+/* Play Foghorn Button - Weathered Driftwood Blue */
 .play-button {
   width: 100%;
   min-height: 60px;  /* Grief-aware: exceeds 44px WCAG minimum */
   padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(135deg,
-    var(--color-lighthouse-stone) 0%,
-    var(--color-tide-pool-blue) 100%
-  );
-  background-image: var(--texture-wood-grain);
+  background: linear-gradient(to bottom,
+    rgba(74, 107, 124, 0.85) 0%,
+    rgba(59, 88, 100, 0.9) 100%);
   color: var(--color-aged-parchment);
-  border: var(--border-width-medium) solid var(--color-weathered-rope);
+  border: var(--border-width-medium) solid rgba(139, 115, 85, 0.4);
   border-radius: var(--radius-md);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
@@ -215,16 +275,40 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+  transition: transform var(--transition-fast), box-shadow var(--transition-base), background var(--transition-base);
   margin-bottom: var(--space-lg);
   box-shadow: var(--shadow-md),
-              inset 0 1px 0 rgba(245, 242, 237, 0.1);
+              inset 0 1px 2px rgba(255, 255, 255, 0.2),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+
+/* Subtle wood grain texture on Play button */
+.play-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-wood-grain);
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-medium);
+  pointer-events: none;
+  border-radius: var(--radius-md);
 }
 
 .play-button:hover {
   transform: translateY(-2px);
+  background: linear-gradient(to bottom,
+    rgba(74, 107, 124, 0.95) 0%,
+    rgba(59, 88, 100, 1) 100%);
   box-shadow: var(--shadow-lg),
-              inset 0 1px 0 rgba(245, 242, 237, 0.15);
+              inset 0 1px 2px rgba(255, 255, 255, 0.25),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .play-button:active {
@@ -247,19 +331,20 @@
 
 .play-icon {
   font-size: var(--font-size-2xl);
+  position: relative;
+  z-index: 1;
 }
 
-/* Record Ritual Button - Sea Glass Green with Gradient */
+/* Record Ritual Button - Weathered Sea Glass Green */
 .record-button {
   width: 100%;
   min-height: 60px;  /* Grief-aware: exceeds 44px WCAG minimum */
   padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(135deg,
-    var(--color-sea-glass-green) 0%,
-    var(--color-soft-success) 100%
-  );
+  background: linear-gradient(to bottom,
+    rgba(70, 110, 90, 0.85) 0%,
+    rgba(50, 85, 65, 0.9) 100%);
   color: var(--color-aged-parchment);
-  border: var(--border-width-medium) solid rgba(19, 92, 63, 0.5);
+  border: var(--border-width-medium) solid rgba(139, 115, 85, 0.4);
   border-radius: var(--radius-md);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
@@ -268,16 +353,40 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+  transition: transform var(--transition-fast), box-shadow var(--transition-base), background var(--transition-base);
   margin-bottom: var(--space-md);
   box-shadow: var(--shadow-md),
-              inset 0 1px 0 rgba(245, 242, 237, 0.1);
+              inset 0 1px 2px rgba(255, 255, 255, 0.2),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+
+/* Subtle wood grain texture on Record button */
+.record-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-wood-grain);
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-medium);
+  pointer-events: none;
+  border-radius: var(--radius-md);
 }
 
 .record-button:hover {
   transform: translateY(-2px);
+  background: linear-gradient(to bottom,
+    rgba(70, 110, 90, 0.95) 0%,
+    rgba(50, 85, 65, 1) 100%);
   box-shadow: var(--shadow-lg),
-              inset 0 1px 0 rgba(245, 242, 237, 0.15);
+              inset 0 1px 2px rgba(255, 255, 255, 0.25),
+              inset 0 -1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .record-button:active {
@@ -300,6 +409,8 @@
 
 .record-icon {
   font-size: var(--font-size-2xl);
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================== */
@@ -314,8 +425,24 @@
   margin-bottom: var(--space-lg);
   padding: var(--space-sm) var(--space-md);
   background: var(--color-morning-fog);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+/* Subtle paper texture on ritual count */
+.ritual-count::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-image: var(--texture-paper);
-  border: var(--border-width-thin) var(--border-style-rope) var(--border-color-medium);
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-subtle);
+  pointer-events: none;
   border-radius: var(--radius-sm);
 }
 
@@ -326,23 +453,44 @@
 .historical-section {
   padding: var(--space-md);
   background: var(--color-morning-fog);
-  background-image: var(--texture-paper);
   border: var(--border-width-thin) solid var(--border-color-subtle);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-md);
   box-shadow: var(--shadow-inner);
+  position: relative;
+  text-align: center;
+}
+
+/* Subtle paper texture on historical section */
+.historical-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-paper);
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-subtle);
+  pointer-events: none;
+  border-radius: var(--radius-md);
 }
 
 .historical-label {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   margin-bottom: var(--space-xs);
+  position: relative;
+  z-index: 1;
 }
 
 .historical-info {
   font-size: var(--font-size-sm);
   font-style: italic;
   color: var(--color-text-tertiary);
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================== */
@@ -361,10 +509,27 @@
   gap: 0.25rem;
   padding: var(--space-sm);
   background: var(--color-morning-fog);
-  background-image: var(--texture-paper);
   border: var(--border-width-thin) solid var(--border-color-subtle);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-inner);
+  position: relative;
+  text-align: center;
+}
+
+/* Subtle paper texture on detail items */
+.detail-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--texture-paper);
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  opacity: var(--texture-opacity-subtle);
+  pointer-events: none;
+  border-radius: var(--radius-md);
 }
 
 .detail-label {
@@ -372,6 +537,8 @@
   color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
 }
 
 .detail-value {
@@ -379,6 +546,8 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================== */
@@ -432,10 +601,43 @@
 }
 
 /* ==================== */
+/* Touch Device Support */
+/* (Prevent sticky hover states on mobile) */
+/* ==================== */
+
+/* Only apply hover transforms on devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  /* Hover styles are in the main button definitions above */
+}
+
+/* Touch devices: no transform, but still show visual feedback */
+@media (hover: none) or (pointer: coarse) {
+  .play-button:hover,
+  .record-button:hover {
+    transform: none;
+  }
+
+  .play-button:active,
+  .record-button:active {
+    opacity: 0.9;
+    transform: none;
+  }
+
+  .refresh-button:hover {
+    transform: none;
+  }
+}
+
+/* ==================== */
 /* Mobile Responsive */
 /* ==================== */
 
 @media (max-width: 600px) {
+  #root {
+    align-items: flex-start;
+    padding-top: var(--space-md);
+  }
+
   .app {
     max-width: 100%;
     border-radius: 0;
