@@ -3,14 +3,17 @@
  * Pure business logic for ritual tracking (no side effects)
  */
 
+const VALID_LOSS_TYPES = ['person', 'relationship', 'self', 'place', 'multiple'];
+
 /**
  * Create a new ritual record
  * @param {Object} weather - Weather data at time of ritual
  * @param {boolean} foghornPlayed - Whether foghorn was played
  * @param {number|null} intensity - Optional grief intensity (1-10)
+ * @param {string|null} lossType  - Optional: 'person'|'relationship'|'self'|'place'|'multiple'
  * @returns {Object} Ritual record
  */
-export function createRitual(weather, foghornPlayed, intensity = null) {
+export function createRitual(weather, foghornPlayed, intensity = null, lossType = null) {
   return {
     id: generateRitualId(),
     timestamp: new Date().toISOString(),
@@ -24,6 +27,7 @@ export function createRitual(weather, foghornPlayed, intensity = null) {
     },
     foghornPlayed,
     intensity: intensity ? validateIntensity(intensity) : null,
+    lossType: lossType && VALID_LOSS_TYPES.includes(lossType) ? lossType : null,
   };
 }
 

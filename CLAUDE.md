@@ -1,8 +1,9 @@
 # Foghorn - Agent Briefing
 
 **Project:** Grief processing app using daily weather rituals and sensory memory
-**Framework:** Investiture (MIT licensed by Erika Flowers)
 **Research Question:** How do you mourn people who are still alive WITHOUT getting stuck in grief?
+
+> Personal research context is in `CLAUDE.private.md` (gitignored, never commit).
 
 ---
 
@@ -15,35 +16,6 @@ Foghorn is NOT a weather app. It's a tool for processing ambiguous loss (mournin
 - Growth tracking (moving THROUGH grief, not staying stuck)
 
 **The commitment:** Process grief, not preserve it forever.
-
----
-
-## Core Concepts
-
-### The Memory (1999, Age 14, Falmouth, MA)
-- Apple green room, red plaid flannel comforter
-- 6:45 AM, foghorn sound, snow hissing on wood shingles
-- Knowing the weather before you see it
-- Warmth, safety, "it was just yesterday"
-
-### The Losses (Who We're Mourning - Alive But Gone)
-- Dad (choosing absence, won't answer phone)
-- Brother (six months of silence, political divide)
-- The 14-year-old self (the good kid, the useful one)
-- The real foghorn (now a recording)
-- The place (Falmouth → Louisiana → Berkshires)
-
-### The Grief (Ambiguous Loss)
-Not death grief. Grief for:
-- People still alive but choosing not to be present
-- Relationships lost to transition, politics, time
-- Places you can't return to
-- The child-self who didn't know how much would be lost
-
-### The Research
-**Hypothesis:** Daily sensory rituals help process ambiguous loss
-**Data:** Track usage patterns, grief intensity, memory creation over time
-**Goal:** Publish findings iteratively (monthly updates, not wait 7 months)
 
 ---
 
@@ -60,16 +32,23 @@ content/            User-facing strings (no hardcoded copy)
 
 core/               Pure business logic (no side effects)
   utils.js          Weather triggers, formatting, wind direction
-  domain/           (Coming) Grief phase, memory, ritual models
+  domain/
+    ritual.js       Ritual model (intensity, lossType, weather context)
+    historical-match.js  Scoring algorithm for historical weather matching
 
 services/           External integrations
   weather.js        OpenWeatherMap API
   foghorn.js        Web Audio API playback
-  storage/          (Coming) IndexedDB for memories, rituals
+  historical.js     Open-Meteo archive API (Falmouth historical weather)
+  storage/
+    ritual-storage.js     IndexedDB ritual persistence
+    historical-cache.js   IndexedDB cache for historical matches
 
 src/                React components
-  components/       (Coming) Extracted from App.jsx
-  App.jsx           Main app (currently monolithic, needs refactor)
+  components/
+    HistoricalMatch.jsx   Historical weather echo display
+    RitualCapture.jsx     Intensity + loss type capture panel
+  App.jsx           Main app
 ```
 
 ### Architecture Rules
@@ -100,35 +79,16 @@ src/                React components
 ## Design System
 
 ### Colors (Coastal Aesthetic)
-
-**Primary Palette:**
 - `--color-fog-grey` - Background, evokes coastal fog
 - `--color-deep-ocean` - Primary actions, headers
 - `--color-lighthouse-beacon` - Accent, foghorn trigger indicator
 - `--color-soft-white` - Surface, cards
 
-**Semantic Colors:**
-- `--color-background` - Fog grey
-- `--color-surface` - Soft white
-- `--color-primary` - Deep ocean
-- `--color-accent` - Lighthouse beacon
-- `--color-text-primary` - Charcoal
-- `--color-text-secondary` - #666
-- `--color-success` - Sea green
-- `--color-error` - Muted red
-
 ### Typography
-
-**Fonts:**
-- Headers: `--font-family-serif` (Georgia - timeless, "it was just yesterday")
+- Headers: `--font-family-serif` (Georgia - timeless)
 - Body: `--font-family-sans` (System font - clean, readable)
 
-**Sizes:**
-- Use tokens: `--font-size-sm`, `--font-size-base`, `--font-size-lg`
-- Never hardcode font sizes
-
 ### Spacing
-
 Use tokens: `--space-xs`, `--space-sm`, `--space-md`, `--space-lg`, `--space-xl`
 
 ---
@@ -139,213 +99,58 @@ All user-facing text lives in `content/en.json`. Import and use:
 
 ```javascript
 import content from '../content/en.json';
-
-// In component:
 <h1>{content.app.title}</h1>
-<p>{content.weather.loading}</p>
 ```
 
-**Never hardcode strings.** This enables:
-- Consistent copy across app
-- Easy translation to other languages
-- Content updates without code changes
+**Never hardcode strings.**
 
 ---
 
 ## Core Utilities (core/utils.js)
 
-Pure functions with no side effects. Examples:
+Pure functions with no side effects:
 
 ```javascript
 import { shouldPlayFoghorn, getWeatherEmoji, formatTemp } from '../core/utils';
-
 shouldPlayFoghorn('Fog')  // true
 getWeatherEmoji('Snow')   // '🌨️'
 formatTemp(35)            // '35°F'
 ```
 
-**Rule:** If it transforms data but doesn't call APIs or modify state, it goes in `core/utils.js`.
+---
+
+## Services
+
+### Weather (services/weather.js)
+OpenWeatherMap API. Returns `{ location, condition, temp, wind, shouldPlayFoghorn, ... }`
+
+### Foghorn (services/foghorn.js)
+Web Audio API. Lazy-loads audio on first play (requires user gesture).
+Recording: Nobska Lighthouse, Falmouth, MA. Courtesy of Friends of Nobska Lighthouse.
+
+### Historical (services/historical.js)
+Open-Meteo archive API. Finds historical days matching current weather.
+No API key required. Searches 1985–2003. Caches results in IndexedDB.
+
+### Storage (services/storage/)
+IndexedDB. Local-first, privacy-first. No external transmission.
+- `ritual-storage.js` — ritual CRUD + export
+- `historical-cache.js` — historical match cache (30-day TTL)
 
 ---
 
-## Services (services/)
+## Ritual Tracking
 
-External integrations with side effects.
-
-### Weather Service (services/weather.js)
-
-```javascript
-import { getCurrentWeather, getUserLocation } from '../services/weather';
-
-const location = await getUserLocation();
-const weather = await getCurrentWeather(location.lat, location.lon);
-// Returns: { location, condition, temp, wind, shouldPlayFoghorn, ... }
-```
-
-### Foghorn Service (services/foghorn.js)
-
-```javascript
-import { playFoghorn, loadFoghorn } from '../services/foghorn';
-
-await loadFoghorn('/path/to/foghorn.mp3');  // Once on mount
-await playFoghorn();  // Play sound
-```
-
----
-
-## Grief Processing Features (Coming)
-
-### Phases
-- **Active Grief:** Daily rituals, high intensity, automatic triggers
-- **Processing:** Reflective rituals, medium intensity, optional triggers  
-- **Integration:** Occasional rituals, low intensity, memorial mode
-- **Memorial:** Archive state, exit strategy
-
-### Ritual Tracking
-Record each foghorn ritual:
+Each ritual records:
 ```javascript
 {
   timestamp: Date,
-  weather: { condition, temp, location },
+  weather: { condition, temp, location, wind },
   foghornPlayed: boolean,
-  duration: number,  // time spent in ritual
-  intensity: 1-10    // self-reported grief intensity
+  intensity: 1-10,        // self-reported grief intensity
+  lossType: string|null   // 'person'|'relationship'|'self'|'place'|'multiple'
 }
 ```
-
-### Memory Layer
-Capture memories triggered by weather:
-```javascript
-{
-  type: 'voice' | 'text' | 'photo',
-  timestamp: Date,
-  weatherContext: { },
-  content: { },
-  griefContext: {
-    phase: 'active' | 'processing' | 'integration',
-    intensity: 1-10,
-    tags: ['dad', 'brother', 'grandmother']
-  }
-}
-```
-
-### Growth Tracking
-Detect patterns over time:
-- Ritual frequency (daily → weekly → monthly)
-- Grief intensity (high → manageable)
-- Red flags (regression)
-- Green flags (healing)
-
-### Exit Strategies
-When ready to graduate:
-- **Memorial Mode:** Anniversaries only
-- **Archive Mode:** Saved but silent
-- **Legacy Mode:** Time capsule for daughter
-- **Delete:** Full wipe with export
-
----
-
-## Component Patterns (Coming)
-
-### Component Structure
-
-```javascript
-import { useState } from 'react';
-import content from '../../content/en.json';
-import './ComponentName.css';
-
-export default function ComponentName({ prop1, prop2, onAction }) {
-  const [state, setState] = useState(null);
-
-  function handleAction() {
-    // Logic here
-    onAction(data);
-  }
-
-  return (
-    <div className="component-name">
-      <h2>{content.section.title}</h2>
-      {/* ... */}
-    </div>
-  );
-}
-```
-
-### CSS Modules Pattern
-
-Use design tokens, not magic numbers:
-
-```css
-.component-name {
-  background: var(--color-surface);
-  padding: var(--space-md);
-  border-radius: var(--radius-md);
-  color: var(--color-text-primary);
-}
-```
-
----
-
-## Data Storage (Coming - IndexedDB)
-
-Local-first, privacy-first architecture.
-
-### Object Stores
-- `memories` - Voice notes, text, photos
-- `rituals` - Daily ritual tracking
-- `settings` - User preferences
-- `historical` - Falmouth weather cache (1985-2003)
-
-### Privacy Rules
-- All data local by default
-- Cloud sync is opt-in
-- Export to JSON for portability
-- Clear deletion on exit
-
----
-
-## Research & Publishing
-
-### Iterative Publishing Timeline
-- **Month 1:** Build + use, publish "I'm building Foghorn"
-- **Month 2:** Publish "Week 4 findings: Does it help?"
-- **Month 3:** Publish "Can weather apps process grief?"
-- **Month 6:** Full case study
-
-### What to Track
-- Ritual frequency over time
-- Grief intensity trends
-- Memory creation patterns
-- Weather correlations (fog = dad memories, snow = family)
-- Phase transitions
-- Exit timing
-
-### What to Publish
-- Build logs (weekly)
-- Research updates (monthly)
-- Early findings (honest, even if negative)
-- Full case study (6 months)
-
----
-
-## Technical Constraints
-
-### API Keys & Environment
-- OpenWeatherMap API key in `.env` (VITE_OPENWEATHER_API_KEY)
-- Default location: Berkshires, MA (42.4509, -73.2481)
-- Falmouth, MA for historical: (41.5515, -70.6148)
-
-### Browser Support
-- Modern browsers (Chrome, Safari, Firefox)
-- iOS Safari (audio unlock required)
-- Web Audio API for foghorn playback
-- IndexedDB for storage
-
-### Performance
-- Keep bundles small (coastal aesthetic is minimal)
-- Lazy load heavy features (voice recording, photo upload)
-- Cache weather data (offline support)
-- Respect reduced motion preferences
 
 ---
 
@@ -355,77 +160,97 @@ Local-first, privacy-first architecture.
 - ❌ Streaks (guilt for missing days)
 - ❌ Gamification (trivializes grief)
 - ❌ Social sharing (grief is private)
-- ❌ Aggressive notifications ("You haven't checked in!")
-- ❌ Forced engagement (let users skip rituals)
+- ❌ Aggressive notifications
+- ❌ Forced engagement
 
 ### What TO Do
-- ✅ Gentle reminders ("Weather is foggy today")
-- ✅ Progress without pressure ("5 memories this month")
-- ✅ Choice over automation ("Play when ready")
-- ✅ Respect silence ("It's okay to skip")
-- ✅ Exit as success ("You've processed enough")
+- ✅ Gentle reminders
+- ✅ Progress without pressure
+- ✅ Choice over automation
+- ✅ Respect silence
+- ✅ Exit as success
+
+---
+
+## Grief Phase Model
+
+Active Grief → Processing → Integration → Memorial → Exit
+
+**Important:** Phases are not linear stages. Grief oscillates (Dual Process Model).
+Phases are self-reported only — never auto-detected. Never communicated as progress or achievement.
+
+### Exit Strategies
+- **Memorial Mode:** Anniversaries only
+- **Archive Mode:** Saved but silent
+- **Legacy Mode:** Time capsule
+- **Delete:** Full wipe with JSON export
+
+---
+
+## Research Methodology
+
+Self-study / autoethnography. n=1. Limitations acknowledged.
+
+**Grounding:** Pauline Boss's ambiguous loss theory, Dual Process Model (Stroebe & Schut),
+Continuing Bonds Theory (Klass et al.), ritual theory (van Gennep).
+
+**Minimum viable measurements for publishable findings:**
+- Per-ritual: timestamp, weather, intensity (1–10), loss type, duration
+- Monthly: frequency trend, intensity trend, loss type distribution
+- Quarterly: validated instrument (Grief Intensity Scale or Boss's Ambiguous Loss Scale)
+
+---
+
+## Technical Constraints
+
+### API Keys & Environment
+```
+VITE_OPENWEATHER_API_KEY=...
+VITE_DEFAULT_LAT=...
+VITE_DEFAULT_LON=...
+```
+
+### Browser Support
+- Modern browsers (Chrome, Safari, Firefox)
+- iOS Safari (audio unlock handled via lazy-load on user gesture)
+- Web Audio API for foghorn playback
+- IndexedDB for storage
 
 ---
 
 ## Common Tasks
 
 ### Adding a New Feature
-
-1. **Define domain model** (if needed) in `core/domain/`
-2. **Add copy** to `content/en.json`
-3. **Create service** (if external integration) in `services/`
-4. **Build component** in `src/components/`
-5. **Use design tokens** from `design-system/tokens.css`
-6. **Test with user** (dogfood immediately)
-
-### Adding a New String
-
-1. Open `content/en.json`
-2. Add to appropriate section
-3. Import in component: `import content from '../content/en.json'`
-4. Use: `{content.section.key}`
-
-### Adding a New Color
-
-1. Add to `design-system/tokens.css`
-2. Use semantic name: `--color-purpose-variant`
-3. Reference in CSS: `color: var(--color-purpose-variant)`
+1. Define domain model in `core/domain/`
+2. Add copy to `content/en.json`
+3. Create service (if external integration) in `services/`
+4. Build component in `src/components/`
+5. Use design tokens from `design-system/tokens.css`
 
 ### Debugging Weather API
+Check `.env` has `VITE_OPENWEATHER_API_KEY`. Verify key is active (can take 2 hours after creation).
 
-- Check `.env` has `VITE_OPENWEATHER_API_KEY`
-- Verify key is active (can take 2 hours)
-- Test with curl: `curl "https://api.openweathermap.org/data/2.5/weather?lat=42.4509&lon=-73.2481&appid=YOUR_KEY"`
+### Debugging Historical Match
+Open-Meteo requires no key. Check browser network tab for `archive-api.open-meteo.com` requests.
+First load makes ~19 parallel requests (one per year 1985–2003). Results cache for 30 days.
 
 ---
 
 ## Git Workflow
 
 ### Commit Message Format
-
 ```
 Brief description of change
 
 - Specific change 1
 - Specific change 2
-- Why this matters for grief processing (if relevant)
-
-Research impact: [if applicable]
 ```
 
-### What to Commit
-
-- All code changes
-- Design token updates
-- Content string additions
-- Documentation improvements
-
 ### What NOT to Commit
-
-- `.env` (has API keys)
+- `.env`
+- `CLAUDE.private.md`
 - `node_modules/`
-- `dist/` (build output)
-- Personal grief data (if testing locally)
+- `dist/`
 
 ---
 
@@ -443,14 +268,4 @@ Research impact: [if applicable]
 
 **Lighthouses guide you home. Even when home is gone.**
 
-This app is:
-- A lighthouse (not a temple)
-- A guide (not a prison)
-- A ritual (not a replacement)
-- A tool for processing (not preserving)
-
 Build accordingly.
-
----
-
-**This is grief made tangible. Build with care.**

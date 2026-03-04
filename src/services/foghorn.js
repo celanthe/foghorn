@@ -1,8 +1,9 @@
 /**
  * Foghorn audio playback service
- * 
- * TODO: Replace placeholder with real foghorn recording
- * Need: Pre-2000s Falmouth foghorn, NOT the new recording
+ *
+ * Recording: Nobska Lighthouse, Falmouth, MA (2018)
+ * Source: Friends of Nobska Lighthouse — https://friendsofnobska.org/
+ * Not the 1999 sound. Same lighthouse.
  */
 
 let audioContext = null;
@@ -34,7 +35,6 @@ export async function loadFoghorn(audioPath) {
     const response = await fetch(audioPath);
     const arrayBuffer = await response.arrayBuffer();
     audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    console.log('[foghorn] Audio loaded successfully');
   } catch (error) {
     console.error('[foghorn] Failed to load audio:', error);
     throw new Error('Could not load foghorn audio');
@@ -43,11 +43,18 @@ export async function loadFoghorn(audioPath) {
 
 /**
  * Play foghorn sound
+ * Lazy-loads audio on first call (requires user gesture for AudioContext)
+ * @param {string} [path] - Audio path to load if not already loaded
  * @returns {Promise<void>}
  */
-export async function playFoghorn() {
+export async function playFoghorn(path = null) {
   await initAudio();
-  
+
+  // Lazy-load audio on first play (inside user gesture — AudioContext works)
+  if (!audioBuffer && path) {
+    await loadFoghorn(path);
+  }
+
   // Stop any currently playing sound
   if (currentSource) {
     try {
@@ -57,10 +64,9 @@ export async function playFoghorn() {
     }
     currentSource = null;
   }
-  
+
   if (!audioBuffer) {
-    console.warn('[foghorn] No audio loaded, cannot play');
-    return;
+    throw new Error('Foghorn audio could not be loaded');
   }
   
   // Create new source
@@ -68,8 +74,6 @@ export async function playFoghorn() {
   currentSource.buffer = audioBuffer;
   currentSource.connect(audioContext.destination);
   currentSource.start(0);
-  
-  console.log('[foghorn] Playing foghorn sound');
   
   // Return promise that resolves when sound finishes
   return new Promise(resolve => {

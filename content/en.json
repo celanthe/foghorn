@@ -24,10 +24,8 @@
     "noAudio": "Foghorn audio not loaded yet"
   },
   "historical": {
-    "label": "Similar to:",
-    "placeholder": "Historical matching coming soon...",
-    "match": "Falmouth, MA • {date}",
-    "description": "{condition}, {temp}°F, {wind}"
+    "label": "Echoes of",
+    "noMatch": ""
   },
   "phases": {
     "active": "Active Grief",
@@ -42,7 +40,17 @@
     "count": "{count} rituals recorded",
     "todayCount": "{count} today",
     "error": "Could not save ritual",
-    "success": "Ritual saved locally"
+    "success": "Ritual saved locally",
+    "cancelCapture": "Not now",
+    "intensityPrompt": "How present is the grief right now?",
+    "lossTypePrompt": "What's with you?",
+    "lossTypes": {
+      "person":       "A person",
+      "relationship": "A relationship",
+      "self":         "Yourself",
+      "place":        "A place",
+      "multiple":     "All of it"
+    }
   },
   "memory": {
     "prompt": "What do you remember?",
@@ -70,6 +78,13 @@
     "griefPrompts": "Grief Prompts",
     "enabled": "Enabled",
     "disabled": "Disabled"
+  },
+  "attribution": {
+    "foghorn": "Foghorn recording courtesy of",
+    "foghornOrg": "Friends of Nobska Lighthouse",
+    "foghornUrl": "https://friendsofnobska.org/",
+    "donateUrl": "https://friendsofnobska.org/donate",
+    "donate": "Support them"
   },
   "errors": {
     "apiKey": "OpenWeatherMap API key not configured",

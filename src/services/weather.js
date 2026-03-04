@@ -40,8 +40,8 @@ export async function getCurrentWeather(lat, lon) {
     feelsLike: Math.round(data.main.feels_like),
     humidity: data.main.humidity,
     wind: {
-      speed: Math.round(data.wind.speed), // mph
-      direction: getWindDirection(data.wind.deg),
+      speed: Math.round(data.wind?.speed ?? 0),
+      direction: data.wind?.deg != null ? getWindDirection(data.wind.deg) : '—',
     },
     timestamp: new Date(data.dt * 1000),
     shouldPlayFoghorn: shouldPlayFoghorn(data.weather[0].main),
@@ -66,11 +66,11 @@ export function getUserLocation() {
           lon: position.coords.longitude,
         });
       },
-      error => {
-        // Fall back to default location
+      () => {
+        // Fall back to default location — caller should surface this to the user
         const defaultLat = parseFloat(import.meta.env.VITE_DEFAULT_LAT);
         const defaultLon = parseFloat(import.meta.env.VITE_DEFAULT_LON);
-        resolve({ lat: defaultLat, lon: defaultLon });
+        resolve({ lat: defaultLat, lon: defaultLon, usingDefault: true });
       }
     );
   });

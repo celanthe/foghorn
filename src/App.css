@@ -238,19 +238,54 @@
 }
 
 /* ==================== */
-/* Foghorn Trigger Indicator */
+/* Foghorn Trigger Indicator — gentle, no alarm (Kilara) */
 /* ==================== */
 
 .foghorn-trigger {
-  background: var(--color-lighthouse-beacon);
-  color: var(--color-aged-parchment);
-  padding: var(--space-sm);
-  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-lighthouse-beacon);
+  padding: var(--space-xs) var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* ==================== */
+/* Location note */
+/* ==================== */
+
+.location-note {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   text-align: center;
-  margin-bottom: var(--space-lg);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-lg);  /* Large text for 4.62:1 contrast (AA compliant) */
-  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-sm);
+  font-style: italic;
+}
+
+/* ==================== */
+/* Ritual saved confirmation */
+/* ==================== */
+
+.ritual-saved {
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-soft-success);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  font-style: italic;
+  animation: gentle-fade 2.5s ease forwards;
+}
+
+@keyframes gentle-fade {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ritual-saved { animation: none; }
 }
 
 /* ==================== */
@@ -422,7 +457,7 @@
   font-size: var(--font-size-sm);
   font-style: italic;
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
   padding: var(--space-sm) var(--space-md);
   background: var(--color-morning-fog);
   border: var(--border-width-thin) solid var(--border-color-subtle);
@@ -548,6 +583,35 @@
   color: var(--color-text-primary);
   position: relative;
   z-index: 1;
+}
+
+/* ==================== */
+/* Attribution Footer */
+/* ==================== */
+
+.attribution {
+  padding: var(--space-sm) var(--space-md);
+  border-top: var(--border-width-thin) solid var(--border-color-subtle);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-relaxed);
+}
+
+.attribution__link {
+  color: var(--color-text-tertiary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.attribution__link:hover {
+  color: var(--color-text-secondary);
+}
+
+.attribution__link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
 }
 
 /* ==================== */

@@ -1,0 +1,27 @@
+.historical-match {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: var(--space-sm) var(--space-md);
+  border-left: 3px solid var(--color-lighthouse-beacon);
+  margin-bottom: var(--space-md);
+}
+
+.historical-match__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.historical-match__headline {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.historical-match__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
