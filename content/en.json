@@ -91,7 +91,14 @@
     "skip": "Not now",
     "notice": "Quarterly reflection available",
     "begin": "Begin",
-    "saved": "Reflection saved"
+    "saved": "Reflection saved",
+    "historyTitle": "Past reflections",
+    "historyEmpty": "No reflections recorded yet.",
+    "q1short": "Frequency",
+    "q2short": "Impact",
+    "q3short": "Uncertainty",
+    "q4short": "Connection",
+    "q5short": "Shift"
   },
   "settings": {
     "title": "Settings",

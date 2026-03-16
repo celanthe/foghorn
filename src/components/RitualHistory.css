@@ -230,3 +230,8 @@
   border-color: var(--color-lighthouse-beacon);
   color: var(--color-lighthouse-beacon);
 }
+
+.ritual-history__tag--phase {
+  border-color: var(--color-tide-pool-blue);
+  color: var(--color-tide-pool-blue);
+}

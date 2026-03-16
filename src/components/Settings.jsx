@@ -2,6 +2,14 @@ import { useState } from 'react'
 import content from '../../content/en.json'
 import './Settings.css'
 
+const Q_SHORT = [
+  content.checkin.q1short,
+  content.checkin.q2short,
+  content.checkin.q3short,
+  content.checkin.q4short,
+  content.checkin.q5short,
+]
+
 const STORAGE_KEY = 'foghorn_settings'
 
 export function loadSettings() {
@@ -36,6 +44,12 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
   const lastCheckinDisplay = lastCheckin
     ? new Date(lastCheckin).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : null
+
+  const checkinHistory = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('foghorn_checkins') || '[]').reverse()
+    } catch { return [] }
+  })()
 
   function toggleTrigger(key) {
     setTriggers(prev => ({ ...prev, [key]: !prev[key] }))
@@ -135,6 +149,35 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
             {content.settings.checkinButton}
           </button>
         </section>
+
+        {/* Check-in history */}
+        {checkinHistory.length > 0 && (
+          <section className="settings__section">
+            <h3 className="settings__section-title">{content.checkin.historyTitle}</h3>
+            <div className="settings__checkin-history">
+              {checkinHistory.map(entry => (
+                <div key={entry.id} className="settings__checkin-entry">
+                  <div className="settings__checkin-entry-date">
+                    {new Date(entry.timestamp).toLocaleDateString('en-US', {
+                      month: 'short', day: 'numeric', year: 'numeric'
+                    })}
+                  </div>
+                  <div className="settings__checkin-scores">
+                    {entry.scores.map((score, i) => (
+                      <div key={i} className="settings__checkin-score">
+                        <span className="settings__checkin-score-label">{Q_SHORT[i]}</span>
+                        <span className="settings__checkin-score-value">{score}/5</span>
+                      </div>
+                    ))}
+                  </div>
+                  {entry.notes && (
+                    <div className="settings__checkin-entry-notes">{entry.notes}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
       </div>
 

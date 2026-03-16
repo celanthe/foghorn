@@ -121,6 +121,11 @@ export default function RitualHistory({ onClose }) {
                     {duration && (
                       <span className="ritual-history__tag">{duration}</span>
                     )}
+                    {ritual.phase && (
+                      <span className="ritual-history__tag ritual-history__tag--phase">
+                        {content.phases[ritual.phase]}
+                      </span>
+                    )}
                     {ritual.foghornPlayed && (
                       <span className="ritual-history__tag ritual-history__tag--foghorn">
                         {content.history.foghornNote}

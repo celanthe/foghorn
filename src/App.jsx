@@ -127,7 +127,7 @@ function App() {
     try {
       setRecordingRitual(true)
 
-      const ritual = createRitual(weather, foghornPlayed, intensity, lossType, duration, notes)
+      const ritual = createRitual(weather, foghornPlayed, intensity, lossType, duration, notes, currentPhase)
       await saveRitual(ritual)
 
       const count = await getRitualCount()
