@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getAllRituals, exportRituals, deleteRitual } from '../services/storage/ritual-storage'
+import { getAllRituals, exportRituals, exportRitualsCSV, deleteRitual } from '../services/storage/ritual-storage'
 import { formatRitual } from '../../core/domain/ritual'
 import RitualAnalytics from './RitualAnalytics'
 import content from '../../content/en.json'
@@ -14,10 +14,11 @@ function formatDuration(seconds) {
 }
 
 export default function RitualHistory({ onClose }) {
-  const [rituals, setRituals]     = useState([])
-  const [loading, setLoading]     = useState(true)
-  const [exporting, setExporting] = useState(false)
-  const [tab, setTab]             = useState('history')
+  const [rituals, setRituals]       = useState([])
+  const [loading, setLoading]       = useState(true)
+  const [exporting, setExporting]   = useState(false)
+  const [exportingCSV, setExportingCSV] = useState(false)
+  const [tab, setTab]               = useState('history')
 
   useEffect(() => {
     getAllRituals()
@@ -38,6 +39,22 @@ export default function RitualHistory({ onClose }) {
       URL.revokeObjectURL(url)
     } finally {
       setExporting(false)
+    }
+  }
+
+  async function handleExportCSV() {
+    try {
+      setExportingCSV(true)
+      const csv  = await exportRitualsCSV()
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url  = URL.createObjectURL(blob)
+      const a    = document.createElement('a')
+      a.href     = url
+      a.download = `foghorn-rituals-${new Date().toISOString().split('T')[0]}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    } finally {
+      setExportingCSV(false)
     }
   }
 
@@ -67,10 +84,19 @@ export default function RitualHistory({ onClose }) {
         <div className="ritual-history__header-actions">
           <button
             className="ritual-history__export"
+            onClick={handleExportCSV}
+            disabled={exportingCSV || !rituals.length}
+            title="Export as CSV for analysis"
+          >
+            {exportingCSV ? '...' : 'CSV'}
+          </button>
+          <button
+            className="ritual-history__export"
             onClick={handleExport}
             disabled={exporting || !rituals.length}
+            title="Export as JSON backup"
           >
-            {exporting ? '...' : content.ritual.export}
+            {exporting ? '...' : 'JSON'}
           </button>
           <button
             className="ritual-history__close"

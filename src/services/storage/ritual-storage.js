@@ -212,6 +212,54 @@ export async function exportRituals() {
 }
 
 /**
+ * Export rituals as CSV for analysis in R, Python, Excel, etc.
+ * @returns {Promise<string>} CSV string
+ */
+export async function exportRitualsCSV() {
+  const rituals = await getAllRituals();
+
+  const headers = [
+    'timestamp', 'date', 'time',
+    'condition', 'description', 'temp_f', 'feels_like_f',
+    'location', 'wind_speed_mph', 'wind_direction',
+    'foghorn_played', 'intensity', 'loss_type',
+    'duration_seconds', 'phase', 'notes',
+  ];
+
+  function escapeCSV(val) {
+    if (val == null) return '';
+    const str = String(val);
+    return str.includes(',') || str.includes('"') || str.includes('\n')
+      ? `"${str.replace(/"/g, '""')}"`
+      : str;
+  }
+
+  const rows = rituals.map(r => {
+    const d = new Date(r.timestamp);
+    return [
+      r.timestamp,
+      d.toLocaleDateString('en-US'),
+      d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+      r.weather.condition,
+      r.weather.description,
+      r.weather.temp,
+      r.weather.feelsLike,
+      r.weather.location,
+      r.weather.wind?.speed ?? '',
+      r.weather.wind?.direction ?? '',
+      r.foghornPlayed ? 1 : 0,
+      r.intensity ?? '',
+      r.lossType ?? '',
+      r.duration ?? '',
+      r.phase ?? '',
+      r.notes ?? '',
+    ].map(escapeCSV).join(',');
+  });
+
+  return [headers.join(','), ...rows].join('\n');
+}
+
+/**
  * Get ritual count
  * @returns {Promise<number>} Total number of rituals
  */
