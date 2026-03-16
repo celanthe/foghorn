@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getAllRituals, exportRituals, exportRitualsCSV, deleteRitual } from '../services/storage/ritual-storage'
 import { formatRitual } from '../../core/domain/ritual'
 import RitualAnalytics from './RitualAnalytics'
+import RetroRitualCapture from './RetroRitualCapture'
 import content from '../../content/en.json'
 import './RitualHistory.css'
 
@@ -13,12 +14,13 @@ function formatDuration(seconds) {
   return s > 0 ? `${m}m ${s}s` : `${m}m`
 }
 
-export default function RitualHistory({ onClose }) {
-  const [rituals, setRituals]       = useState([])
-  const [loading, setLoading]       = useState(true)
-  const [exporting, setExporting]   = useState(false)
+export default function RitualHistory({ onClose, onRitualAdded }) {
+  const [rituals, setRituals]           = useState([])
+  const [loading, setLoading]           = useState(true)
+  const [exporting, setExporting]       = useState(false)
   const [exportingCSV, setExportingCSV] = useState(false)
-  const [tab, setTab]               = useState('history')
+  const [tab, setTab]                   = useState('history')
+  const [showingRetro, setShowingRetro] = useState(false)
 
   useEffect(() => {
     getAllRituals()
@@ -64,6 +66,13 @@ export default function RitualHistory({ onClose }) {
     setRituals(prev => prev.filter(r => r.id !== id))
   }
 
+  async function handleRetroSaved() {
+    setShowingRetro(false)
+    const all = await getAllRituals()
+    setRituals(all)
+    if (onRitualAdded) onRitualAdded()
+  }
+
   return (
     <div className="ritual-history">
       <div className="ritual-history__header">
@@ -82,6 +91,13 @@ export default function RitualHistory({ onClose }) {
           </button>
         </div>
         <div className="ritual-history__header-actions">
+          <button
+            className="ritual-history__export"
+            onClick={() => setShowingRetro(true)}
+            title={content.retro.trigger}
+          >
+            + Past
+          </button>
           <button
             className="ritual-history__export"
             onClick={handleExportCSV}
@@ -107,6 +123,13 @@ export default function RitualHistory({ onClose }) {
           </button>
         </div>
       </div>
+
+      {showingRetro && (
+        <RetroRitualCapture
+          onSaved={handleRetroSaved}
+          onCancel={() => setShowingRetro(false)}
+        />
+      )}
 
       {loading ? (
         <div className="ritual-history__loading" aria-live="polite">...</div>

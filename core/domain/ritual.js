@@ -13,14 +13,15 @@ const VALID_LOSS_TYPES = ['person', 'relationship', 'self', 'place', 'multiple']
  * @param {string|null} lossType  - Optional: 'person'|'relationship'|'self'|'place'|'multiple'
  * @param {number|null} duration  - Optional: seconds spent in ritual
  * @param {string|null} notes    - Optional: freetext note (max 500 chars)
- * @param {string|null} phase    - Optional: self-reported grief phase at time of ritual
+ * @param {string|null} phase     - Optional: self-reported grief phase at time of ritual
+ * @param {string|null} timestamp - Optional: ISO timestamp override for retrospective entry
  * @returns {Object} Ritual record
  */
-export function createRitual(weather, foghornPlayed, intensity = null, lossType = null, duration = null, notes = null, phase = null) {
+export function createRitual(weather, foghornPlayed, intensity = null, lossType = null, duration = null, notes = null, phase = null, timestamp = null) {
   const VALID_PHASES = ['active', 'processing', 'integration', 'memorial']
   return {
     id: generateRitualId(),
-    timestamp: new Date().toISOString(),
+    timestamp: timestamp || new Date().toISOString(),
     weather: {
       condition: weather.condition,
       description: weather.description,

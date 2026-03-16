@@ -9,6 +9,7 @@ import RitualCapture from './components/RitualCapture'
 import RitualHistory from './components/RitualHistory'
 import Settings, { loadSettings } from './components/Settings'
 import QuarterlyCheckIn from './components/QuarterlyCheckIn'
+import FieldNotes from './components/FieldNotes'
 import content from '../content/en.json'
 
 const TRIGGER_CONDITION_MAP = {
@@ -39,6 +40,7 @@ function App() {
   const [recordingRitual, setRecordingRitual]   = useState(false)
   const [ritualSaved, setRitualSaved]           = useState(false)
   const [showingHistory, setShowingHistory]     = useState(false)
+  const [showingNotes, setShowingNotes]         = useState(false)
   const [showingSettings, setShowingSettings]   = useState(false)
   const [showingCheckin, setShowingCheckin]     = useState(false)
   const [checkinNoticeDismissed, setCheckinNoticeDismissed] = useState(false)
@@ -208,14 +210,21 @@ function App() {
         <div className="header-actions">
           <button
             className="header-button"
-            onClick={() => { setShowingHistory(h => !h); setShowingSettings(false) }}
-            aria-label={showingHistory ? content.ritual.historyClose : content.ritual.historyToggle}
+            onClick={() => { setShowingHistory(h => !h); setShowingNotes(false); setShowingSettings(false) }}
+            aria-label={content.ritual.historyToggle}
           >
             {content.ritual.historyToggle}
           </button>
           <button
             className="header-button"
-            onClick={() => { setShowingSettings(s => !s); setShowingHistory(false) }}
+            onClick={() => { setShowingNotes(n => !n); setShowingHistory(false); setShowingSettings(false) }}
+            aria-label={content.fieldNotes.title}
+          >
+            {content.fieldNotes.title}
+          </button>
+          <button
+            className="header-button"
+            onClick={() => { setShowingSettings(s => !s); setShowingHistory(false); setShowingNotes(false) }}
             aria-label={content.settings.title}
           >
             ⚙
@@ -239,7 +248,14 @@ function App() {
       )}
 
       {showingHistory && (
-        <RitualHistory onClose={() => setShowingHistory(false)} />
+        <RitualHistory onClose={() => setShowingHistory(false)} onRitualAdded={async () => {
+          const count = await getRitualCount()
+          setRitualCount(count)
+        }} />
+      )}
+
+      {showingNotes && (
+        <FieldNotes onClose={() => setShowingNotes(false)} />
       )}
 
       {showingSettings && (
@@ -254,7 +270,7 @@ function App() {
         />
       )}
 
-      {weather && !showingHistory && !showingSettings && (
+      {weather && !showingHistory && !showingSettings && !showingNotes && (
         <main className="main">
 
           {/* Weather Display */}

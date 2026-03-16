@@ -55,6 +55,29 @@
       "multiple":     "All of it"
     }
   },
+  "retro": {
+    "trigger": "Add past ritual",
+    "title": "Past ritual",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "conditionLabel": "Weather condition",
+    "tempLabel": "Temp (°F, optional)",
+    "foghornLabel": "Foghorn was played",
+    "save": "Save past ritual",
+    "saved": "Added",
+    "cancel": "Cancel",
+    "conditionPlaceholder": "Select condition"
+  },
+  "fieldNotes": {
+    "title": "Field Notes",
+    "empty": "No field notes yet. Field notes are longer reflections — researcher memos, observations, anything that doesn't fit in a ritual note.",
+    "newNote": "+ New note",
+    "placeholder": "Write a field note...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "deleteConfirm": "Delete this note?",
+    "deleteAriaLabel": "Delete note"
+  },
   "history": {
     "empty": "No rituals recorded yet.",
     "intensityLabel": "intensity",
