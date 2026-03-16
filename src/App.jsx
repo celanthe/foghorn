@@ -3,10 +3,27 @@ import './App.css'
 import { getCurrentWeather, getUserLocation } from './services/weather'
 import { playFoghorn } from './services/foghorn'
 import { createRitual } from '../core/domain/ritual'
-import { saveRitual, getRitualCount } from './services/storage/ritual-storage'
+import { saveRitual, getRitualCount, getRitualsByDateRange } from './services/storage/ritual-storage'
 import HistoricalMatch from './components/HistoricalMatch'
 import RitualCapture from './components/RitualCapture'
+import RitualHistory from './components/RitualHistory'
+import Settings, { loadSettings } from './components/Settings'
+import QuarterlyCheckIn from './components/QuarterlyCheckIn'
 import content from '../content/en.json'
+
+const TRIGGER_CONDITION_MAP = {
+  fog:   ['Mist', 'Fog', 'Haze'],
+  rain:  ['Rain', 'Drizzle'],
+  sleet: ['Sleet'],
+  snow:  ['Snow'],
+}
+
+function isCheckinDue() {
+  const last = localStorage.getItem('foghorn_last_checkin')
+  if (!last) return true
+  const daysSince = (Date.now() - new Date(last).getTime()) / (1000 * 60 * 60 * 24)
+  return daysSince >= 90
+}
 
 function App() {
   const [weather, setWeather]                   = useState(null)
@@ -16,10 +33,17 @@ function App() {
   const [location, setLocation]                 = useState(null)
   const [usingDefaultLocation, setUsingDefault] = useState(false)
   const [ritualCount, setRitualCount]           = useState(0)
+  const [todayCount, setTodayCount]             = useState(0)
   const [foghornPlayed, setFoghornPlayed]       = useState(false)
   const [capturingRitual, setCapturingRitual]   = useState(false)
   const [recordingRitual, setRecordingRitual]   = useState(false)
   const [ritualSaved, setRitualSaved]           = useState(false)
+  const [showingHistory, setShowingHistory]     = useState(false)
+  const [showingSettings, setShowingSettings]   = useState(false)
+  const [showingCheckin, setShowingCheckin]     = useState(false)
+  const [checkinNoticeDismissed, setCheckinNoticeDismissed] = useState(false)
+  const [settings, setSettings]                 = useState(() => loadSettings())
+  const [currentPhase, setCurrentPhase]         = useState(() => localStorage.getItem('foghorn_phase') || null)
 
   useEffect(() => {
     async function loadWeather() {
@@ -27,15 +51,32 @@ function App() {
         setLoading(true)
         setError(null)
 
-        const loc = await getUserLocation()
+        const currentSettings = loadSettings()
+        setSettings(currentSettings)
+
+        const loc = currentSettings.locationOverride
+          ? { ...currentSettings.locationOverride, usingDefault: false }
+          : await getUserLocation()
         setLocation(loc)
         if (loc.usingDefault) setUsingDefault(true)
 
         const weatherData = await getCurrentWeather(loc.lat, loc.lon)
+
+        // Apply user's trigger settings
+        const { foghornTriggers } = currentSettings
+        const shouldPlay = Object.entries(TRIGGER_CONDITION_MAP)
+          .some(([key, conditions]) => foghornTriggers[key] && conditions.includes(weatherData.condition))
+        weatherData.shouldPlayFoghorn = shouldPlay
+
         setWeather(weatherData)
 
         const count = await getRitualCount()
         setRitualCount(count)
+
+        const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0)
+        const todayEnd   = new Date(); todayEnd.setHours(23, 59, 59, 999)
+        const todayRituals = await getRitualsByDateRange(todayStart, todayEnd)
+        setTodayCount(todayRituals.length)
 
 
       } catch (err) {
@@ -74,17 +115,28 @@ function App() {
     setCapturingRitual(false)
   }
 
-  async function handleSaveRitual({ intensity, lossType }) {
+  function handlePhaseChange(phase) {
+    setCurrentPhase(phase || null)
+    if (phase) localStorage.setItem('foghorn_phase', phase)
+    else localStorage.removeItem('foghorn_phase')
+  }
+
+  async function handleSaveRitual({ intensity, lossType, duration, notes }) {
     if (!weather) return
 
     try {
       setRecordingRitual(true)
 
-      const ritual = createRitual(weather, foghornPlayed, intensity, lossType)
+      const ritual = createRitual(weather, foghornPlayed, intensity, lossType, duration, notes)
       await saveRitual(ritual)
 
       const count = await getRitualCount()
       setRitualCount(count)
+
+      const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0)
+      const todayEnd   = new Date(); todayEnd.setHours(23, 59, 59, 999)
+      const todayRituals = await getRitualsByDateRange(todayStart, todayEnd)
+      setTodayCount(todayRituals.length)
 
       setFoghornPlayed(false)
       setCapturingRitual(false)
@@ -105,7 +157,14 @@ function App() {
     if (!location) return
     try {
       setLoading(true)
-      const weatherData = await getCurrentWeather(location.lat, location.lon)
+      const currentSettings = loadSettings()
+      setSettings(currentSettings)
+      const refreshLoc = currentSettings.locationOverride || location
+      const weatherData = await getCurrentWeather(refreshLoc.lat, refreshLoc.lon)
+      const { foghornTriggers } = currentSettings
+      const shouldPlay = Object.entries(TRIGGER_CONDITION_MAP)
+        .some(([key, conditions]) => foghornTriggers[key] && conditions.includes(weatherData.condition))
+      weatherData.shouldPlayFoghorn = shouldPlay
       setWeather(weatherData)
     } catch (err) {
       setError(import.meta.env.DEV ? err.message : 'Unable to refresh weather.')
@@ -146,17 +205,56 @@ function App() {
     <div className="app">
       <header className="header">
         <h1 className="title">Foghorn</h1>
-        <button
-          className="refresh-button"
-          onClick={handleRefresh}
-          disabled={loading}
-          aria-label={content.weather.refresh}
-        >
-          ↻
-        </button>
+        <div className="header-actions">
+          <button
+            className="header-button"
+            onClick={() => { setShowingHistory(h => !h); setShowingSettings(false) }}
+            aria-label={showingHistory ? content.ritual.historyClose : content.ritual.historyToggle}
+          >
+            {content.ritual.historyToggle}
+          </button>
+          <button
+            className="header-button"
+            onClick={() => { setShowingSettings(s => !s); setShowingHistory(false) }}
+            aria-label={content.settings.title}
+          >
+            ⚙
+          </button>
+          <button
+            className="refresh-button"
+            onClick={handleRefresh}
+            disabled={loading}
+            aria-label={content.weather.refresh}
+          >
+            ↻
+          </button>
+        </div>
       </header>
 
-      {weather && (
+      {showingCheckin && (
+        <QuarterlyCheckIn
+          onComplete={() => { setShowingCheckin(false); setCheckinNoticeDismissed(true) }}
+          onSkip={() => setShowingCheckin(false)}
+        />
+      )}
+
+      {showingHistory && (
+        <RitualHistory onClose={() => setShowingHistory(false)} />
+      )}
+
+      {showingSettings && (
+        <Settings
+          onClose={() => setShowingSettings(false)}
+          onSave={newSettings => {
+            setSettings(newSettings)
+            setShowingSettings(false)
+            handleRefresh()
+          }}
+          onCheckIn={() => { setShowingSettings(false); setShowingCheckin(true) }}
+        />
+      )}
+
+      {weather && !showingHistory && !showingSettings && (
         <main className="main">
 
           {/* Weather Display */}
@@ -178,17 +276,52 @@ function App() {
             <div className="location-note">Using default location</div>
           )}
 
-          {/* Ritual Count — grounding anchor before action (Kilara) */}
+          {/* Ritual Count — today + total */}
           {ritualCount > 0 && (
             <div className="ritual-count">
-              {content.ritual.count.replace('{count}', ritualCount)}
+              {todayCount > 0
+                ? `${content.ritual.todayCount.replace('{count}', todayCount)} · ${content.ritual.count.replace('{count}', ritualCount)}`
+                : content.ritual.count.replace('{count}', ritualCount)
+              }
             </div>
           )}
+
+          {/* Quarterly check-in notice — surfaces gently when overdue */}
+          {isCheckinDue() && !checkinNoticeDismissed && (
+            <div className="checkin-notice">
+              <span>{content.checkin.notice}</span>
+              <button className="checkin-notice__begin" onClick={() => setShowingCheckin(true)}>
+                {content.checkin.begin}
+              </button>
+              <button className="checkin-notice__dismiss" onClick={() => setCheckinNoticeDismissed(true)} aria-label="Dismiss">
+                ×
+              </button>
+            </div>
+          )}
+
+          {/* Phase — self-reported only, never shown as progress */}
+          <div className="phase-selector">
+            <label className="phase-selector__label" htmlFor="phase-select">
+              {content.phase.label}
+            </label>
+            <select
+              id="phase-select"
+              className="phase-selector__select"
+              value={currentPhase || ''}
+              onChange={e => handlePhaseChange(e.target.value)}
+            >
+              <option value="">{content.phase.unset}</option>
+              <option value="active">{content.phases.active}</option>
+              <option value="processing">{content.phases.processing}</option>
+              <option value="integration">{content.phases.integration}</option>
+              <option value="memorial">{content.phases.memorial}</option>
+            </select>
+          </div>
 
           {/* Foghorn Trigger — gentle, no alarm emoji (Kilara) */}
           {weather.shouldPlayFoghorn && (
             <div className="foghorn-trigger">
-              Foghorn weather
+              {content.foghorn.trigger}
             </div>
           )}
 

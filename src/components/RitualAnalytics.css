@@ -1,0 +1,177 @@
+@import '../../design-system/tokens.css';
+
+.ritual-analytics {
+  padding: var(--space-md) var(--space-lg);
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+.ritual-analytics__empty {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+}
+
+/* ==================== */
+/* Summary stats */
+/* ==================== */
+
+.ritual-analytics__summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.ritual-analytics__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  background: var(--color-morning-fog);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.ritual-analytics__stat-value {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-light);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.ritual-analytics__stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== */
+/* Sections */
+/* ==================== */
+
+.ritual-analytics__section {
+  margin-bottom: var(--space-lg);
+}
+
+.ritual-analytics__section-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-sm);
+}
+
+/* ==================== */
+/* Monthly frequency bars */
+/* ==================== */
+
+.ritual-analytics__months {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: flex-end;
+  height: 80px;
+}
+
+.ritual-analytics__month {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.ritual-analytics__bar-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.ritual-analytics__bar {
+  width: 100%;
+  background: var(--color-tide-pool-blue);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  opacity: 0.7;
+  min-height: 0;
+  transition: height var(--transition-base);
+}
+
+.ritual-analytics__month-count {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+}
+
+.ritual-analytics__month-label {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  line-height: 1;
+}
+
+/* ==================== */
+/* Loss type breakdown */
+/* ==================== */
+
+.ritual-analytics__loss-types {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.ritual-analytics__loss-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-morning-fog);
+  border-radius: var(--radius-sm);
+}
+
+.ritual-analytics__loss-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.ritual-analytics__loss-count {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+/* ==================== */
+/* Recent intensity dots */
+/* ==================== */
+
+.ritual-analytics__intensity-row {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.ritual-analytics__intensity-dot {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: var(--radius-full);
+  background: var(--color-tide-pool-blue);
+  color: var(--color-aged-parchment);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ritual-analytics__bar {
+    transition: none;
+  }
+}

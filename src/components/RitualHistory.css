@@ -1,0 +1,232 @@
+@import '../../design-system/tokens.css';
+
+.ritual-history {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 300px;
+}
+
+.ritual-history__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-lg);
+  border-bottom: var(--border-width-thin) solid var(--border-color-subtle);
+  flex-shrink: 0;
+  gap: var(--space-sm);
+}
+
+.ritual-history__tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--color-morning-fog);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.ritual-history__tab {
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  min-height: 36px;
+  transition: color var(--transition-base), background var(--transition-base);
+}
+
+.ritual-history__tab:hover {
+  color: var(--color-text-secondary);
+}
+
+.ritual-history__tab--active {
+  background: var(--color-aged-parchment);
+  color: var(--color-text-primary);
+}
+
+.ritual-history__tab:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ritual-history__header-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.ritual-history__export {
+  background: none;
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  transition: color var(--transition-base), border-color var(--transition-base);
+}
+
+.ritual-history__export:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
+}
+
+.ritual-history__export:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ritual-history__export:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ritual-history__close {
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-2xl);
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: color var(--transition-base);
+}
+
+.ritual-history__close:hover {
+  color: var(--color-text-primary);
+}
+
+.ritual-history__close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ritual-history__loading,
+.ritual-history__empty {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+}
+
+.ritual-history__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+.ritual-history__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  border-bottom: var(--border-width-thin) solid var(--border-color-subtle);
+}
+
+.ritual-history__item:last-child {
+  border-bottom: none;
+}
+
+.ritual-history__item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ritual-history__delete {
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity var(--transition-base), color var(--transition-base);
+}
+
+.ritual-history__item:hover .ritual-history__delete,
+.ritual-history__item:focus-within .ritual-history__delete {
+  opacity: 1;
+}
+
+.ritual-history__delete:hover {
+  color: var(--color-error);
+}
+
+.ritual-history__delete:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  opacity: 1;
+}
+
+.ritual-history__notes {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-bottom: var(--space-xs);
+  line-height: var(--line-height-relaxed);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ritual-history__date {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-xs);
+}
+
+.ritual-history__day {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.ritual-history__time {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.ritual-history__weather {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.ritual-history__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.ritual-history__tag {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  background: var(--color-morning-fog);
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  border-radius: var(--radius-full);
+  padding: 2px var(--space-sm);
+}
+
+.ritual-history__tag--foghorn {
+  border-color: var(--color-lighthouse-beacon);
+  color: var(--color-lighthouse-beacon);
+}

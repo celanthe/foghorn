@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import content from '../../content/en.json'
 import './RitualCapture.css'
 
@@ -23,9 +23,16 @@ const LOSS_TYPES = [
 export default function RitualCapture({ onSave, onCancel, saving }) {
   const [intensity, setIntensity] = useState(null)
   const [lossType, setLossType]   = useState(null)
+  const [notes, setNotes]         = useState('')
+  const startTimeRef              = useRef(Date.now())
+
+  useEffect(() => {
+    startTimeRef.current = Date.now()
+  }, [])
 
   function handleSave() {
-    onSave({ intensity, lossType })
+    const duration = Math.round((Date.now() - startTimeRef.current) / 1000)
+    onSave({ intensity, lossType, duration, notes: notes.trim() || null })
   }
 
   return (
@@ -61,6 +68,18 @@ export default function RitualCapture({ onSave, onCancel, saving }) {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="ritual-capture__section">
+        <textarea
+          className="ritual-capture__notes"
+          value={notes}
+          onChange={e => setNotes(e.target.value)}
+          placeholder={content.memory.prompt}
+          maxLength={500}
+          rows={3}
+          aria-label={content.memory.prompt}
+        />
       </div>
 
       <div className="ritual-capture__actions">

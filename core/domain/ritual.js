@@ -11,9 +11,11 @@ const VALID_LOSS_TYPES = ['person', 'relationship', 'self', 'place', 'multiple']
  * @param {boolean} foghornPlayed - Whether foghorn was played
  * @param {number|null} intensity - Optional grief intensity (1-10)
  * @param {string|null} lossType  - Optional: 'person'|'relationship'|'self'|'place'|'multiple'
+ * @param {number|null} duration  - Optional: seconds spent in ritual
+ * @param {string|null} notes    - Optional: freetext note (max 500 chars)
  * @returns {Object} Ritual record
  */
-export function createRitual(weather, foghornPlayed, intensity = null, lossType = null) {
+export function createRitual(weather, foghornPlayed, intensity = null, lossType = null, duration = null, notes = null) {
   return {
     id: generateRitualId(),
     timestamp: new Date().toISOString(),
@@ -28,6 +30,8 @@ export function createRitual(weather, foghornPlayed, intensity = null, lossType 
     foghornPlayed,
     intensity: intensity ? validateIntensity(intensity) : null,
     lossType: lossType && VALID_LOSS_TYPES.includes(lossType) ? lossType : null,
+    duration: duration && duration > 0 ? Math.round(duration) : null,
+    notes: notes ? String(notes).trim().slice(0, 500) || null : null,
   };
 }
 
