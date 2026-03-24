@@ -10,6 +10,7 @@ import RitualHistory from './components/RitualHistory'
 import Settings, { loadSettings } from './components/Settings'
 import QuarterlyCheckIn from './components/QuarterlyCheckIn'
 import FieldNotes from './components/FieldNotes'
+import Onboarding, { loadOnboarding } from './components/Onboarding'
 import content from '../content/en.json'
 
 const TRIGGER_CONDITION_MAP = {
@@ -27,6 +28,7 @@ function isCheckinDue() {
 }
 
 function App() {
+  const [onboardingComplete, setOnboardingComplete] = useState(() => loadOnboarding() !== null)
   const [weather, setWeather]                   = useState(null)
   const [loading, setLoading]                   = useState(true)
   const [error, setError]                       = useState(null)
@@ -173,6 +175,14 @@ function App() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (!onboardingComplete) {
+    return (
+      <div className="app">
+        <Onboarding onComplete={() => setOnboardingComplete(true)} />
+      </div>
+    )
   }
 
   if (loading && !weather) {

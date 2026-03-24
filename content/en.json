@@ -156,24 +156,43 @@
     "save": "Save memory",
     "cancel": "Cancel"
   },
-  "settings": {
-    "title": "Settings",
-    "location": "Location",
-    "notificationTime": "Morning Check-in Time",
-    "weatherTriggers": "Play Foghorn On:",
-    "fog": "Fog",
-    "rain": "Rain",
-    "sleet": "Sleet",
-    "snow": "Snow",
-    "clouds": "Clouds only",
-    "currentPhase": "Current Phase",
-    "frequencyLevel": "Frequency Level",
-    "high": "High",
-    "medium": "Medium",
-    "low": "Low",
-    "griefPrompts": "Grief Prompts",
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+  "onboarding": {
+    "title": "Welcome to Foghorn",
+    "subtitle": "A few questions before we begin.",
+    "nameLabel": "What should Foghorn call you?",
+    "namePlaceholder": "Your name",
+    "weatherTitle": "Weather & You",
+    "weatherHardLabel": "What weather or seasons are hard for you?",
+    "weatherLoveLabel": "What weather or seasons do you love?",
+    "seasons": {
+      "winter": "Winter",
+      "spring": "Spring",
+      "summer": "Summer",
+      "fall": "Fall"
+    },
+    "weatherTypes": {
+      "rain": "Rain",
+      "fog": "Fog",
+      "snow": "Snow",
+      "heat": "Heat",
+      "cold": "Cold",
+      "wind": "Wind"
+    },
+    "modeTitle": "How should Foghorn be present?",
+    "ambientTitle": "Ambient",
+    "ambientDesc": "Foghorn sits quietly. No interruptions. You come to it on your own terms.",
+    "companionTitle": "Companion",
+    "companionDesc": "Gentle nudges at intervals you choose. Still never pushy.",
+    "intervalLabel": "How often?",
+    "intervalOptions": {
+      "daily": "Daily",
+      "everyFewDays": "Every few days",
+      "weekly": "Weekly"
+    },
+    "next": "Next",
+    "back": "Back",
+    "finish": "Begin",
+    "stepOf": "Step {current} of {total}"
   },
   "attribution": {
     "foghorn": "Foghorn recording courtesy of",
