@@ -69,7 +69,8 @@ src/                React components
 
 ### Naming Conventions
 
-**Files:** kebab-case (grief-phase.js, foghorn-button.jsx)
+**Non-component files:** kebab-case `.js` (ritual-storage.js, historical-match.js)
+**Component files:** PascalCase `.jsx` (RitualCapture.jsx, HistoricalMatch.jsx)
 **Components:** PascalCase (WeatherDisplay, FoghornButton)
 **Functions:** camelCase (shouldPlayFoghorn, recordRitual)
 **Constants:** SCREAMING_SNAKE_CASE (FOGHORN_TRIGGERS)
