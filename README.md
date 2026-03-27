@@ -2,7 +2,36 @@
 
 **A place-based grief processing app using daily weather rituals and sensory memory.**
 
-This is not a weather app. This is grief made tangible.
+Foghorn is software for ambiguous loss -- the kind of grief where the person is still alive but gone. No journaling prompts. No five stages. Just a daily ritual anchored in weather, location, and sound.
+
+---
+
+## Why
+
+Most grief software assumes you lost someone to death. Ambiguous loss is different. A parent who chose to leave. A relationship that ended without closure. A version of yourself that no longer exists. These are real losses with no funeral, no casserole, no framework for processing them.
+
+Foghorn does not try to fix grief. It holds space for it through repeatable, bounded rituals that require no verbal processing and no self-assessment.
+
+---
+
+## How It Works
+
+- **Daily weather check-in** -- Your local weather becomes the ritual anchor. Fog means something different than clear sky.
+- **Foghorn trigger** -- Specific weather conditions trigger the foghorn sound, a sensory cue for processing. Real recording from Nobska Lighthouse, Falmouth, MA.
+- **Historical weather matching** -- "Today's weather is similar to Falmouth, January 14, 1999." Temporal context without narrative.
+- **Ritual capture** -- Record intensity (1-10) and loss type per ritual. No journaling. No prompts.
+- **Grief phase awareness** -- Active, Processing, Integration, Memorial. Self-reported only. Never auto-detected. Never framed as progress.
+- **Exit strategies** -- Memorial mode (anniversaries only), archive mode (saved but silent), or full delete with export. Leaving is a valid outcome.
+
+---
+
+## Design Principles
+
+- No streaks. Showing up on day 1 after a 30-day gap is exactly as valid as day 31.
+- No gamification. Grief is not a game.
+- No social sharing. Grief is private.
+- No forced engagement. Silence is a valid interaction.
+- Exit as success. The goal is to move through grief, not stay in the app.
 
 ---
 
@@ -11,8 +40,8 @@ This is not a weather app. This is grief made tangible.
 ### 1. Get an OpenWeatherMap API Key
 
 1. Go to https://openweathermap.org/api
-2. Sign up for free account
-3. Generate API key (free tier: 1000 calls/day)
+2. Sign up for a free account
+3. Generate an API key (free tier: 1000 calls/day)
 
 ### 2. Configure Environment
 
@@ -36,92 +65,51 @@ Open http://localhost:5173
 
 ---
 
-## Current Features (Phase 1 - Week 1)
-
-✅ Current weather for your location
-✅ Weather condition detection (fog, rain, sleet, snow)
-✅ Foghorn trigger indicator
-✅ Manual "Play Foghorn" button
-✅ Coastal, minimal UI (fog grey aesthetic)
-✅ Responsive design
-
----
-
-## Coming Soon
-
-**Phase 1-2 (Weeks 1-4):**
-- Historical Falmouth, MA weather matching (1985-2003)
-- "Similar to Falmouth, Jan 14, 1999"
-- Real foghorn audio (not placeholder)
-- Morning notification (6:45 AM)
-
-**Phase 3-4 (Weeks 5-8):**
-- Memory layer (voice notes, photos, timeline)
-- Grief phases (Active → Processing → Integration)
-- Growth tracking dashboard
-- Red/green flag detection
-
-**Phase 5-6 (Weeks 9-12):**
-- Exit strategies (Memorial/Archive/Legacy modes)
-- Time capsule for daughter
-
----
-
-## Project Structure
-
-```
-foghorn/
-├── src/
-│   ├── components/     # React components
-│   ├── services/       # Weather, foghorn, storage
-│   ├── assets/         # Audio files, images
-│   ├── App.jsx         # Main app
-│   └── App.css         # Coastal aesthetic
-├── .env                # API keys (gitignored)
-├── .env.example        # Template
-└── README.md
-```
-
----
-
-## The Research Question
-
-**"How do you mourn people who are still alive WITHOUT getting stuck in grief?"**
-
-This app helps process ambiguous loss through:
-- Daily weather rituals
-- Sensory memory triggers (foghorn sound)
-- Grief phase progression
-- Growth tracking
-- Exit strategies
-
-**The commitment:** Process grief, not preserve it forever.
-
----
-
 ## Tech Stack
 
 - React + Vite
-- OpenWeatherMap API
+- OpenWeatherMap API (current weather)
+- Open-Meteo Archive API (historical weather, no key required)
 - Web Audio API (foghorn playback)
-- IndexedDB (local storage, coming soon)
+- IndexedDB (local-first storage, no data leaves the device)
 
 ---
 
-## For You
+## Architecture
 
-**What you're building this to process:**
-- Dad (alive but choosing absence)
-- Brother (six months of silence)
-- Grandmother, grandfather, aunt (18 months, sirens, snow)
-- The 14-year-old you (apple green room, red flannel, the good kid)
-- The real foghorn (now a recording)
+```
+foghorn/
+├── design-system/        # CSS tokens (coastal aesthetic)
+├── content/              # All user-facing strings (en.json)
+├── core/                 # Pure domain logic (no side effects)
+│   ├── domain/           # Ritual model, historical matching
+│   └── utils.js          # Weather triggers, formatting
+├── src/
+│   ├── components/       # React UI
+│   └── services/         # Weather API, audio, storage
+├── .env.example          # Environment template
+└── index.html            # SPA entry point
+```
 
-**What you're teaching your daughter:**
-- Grief rituals
-- "It was just yesterday"
-- That you answer the phone
-- That love isn't conditional
+Built with the [Investiture](https://github.com/erikaflowers/investiture) framework. Domain logic is pure and testable. All copy lives in `content/en.json`. All visual values come from design tokens.
+
+---
+
+## Research
+
+Foghorn is part of [Human-Rhythm Design](https://github.com/celanthe/human-rhythm-design), a framework for building software around cognitive, temporal, and emotional patterns. It maps to the **Transitions** pillar -- how the brain processes grief, shutdown, and overwhelm.
+
+The research question: can software hold space for ambiguous loss without trying to resolve it?
+
+Grounded in Pauline Boss's ambiguous loss theory, the Dual Process Model (Stroebe & Schut), and Continuing Bonds Theory (Klass et al.).
+
+The ritual-based transitions pattern extracted from Foghorn is documented in the [Cognitive Accessibility Pattern Library](https://github.com/celanthe/cognitive-accessibility-patterns/blob/main/patterns/ritual-based-transitions.md).
+
+---
+
+## License
+
+MIT
 
 ---
 
