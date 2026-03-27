@@ -4,6 +4,8 @@
 
 Foghorn is software for ambiguous loss -- the kind of grief where the person is still alive but gone. No journaling prompts. No five stages. Just a daily ritual anchored in weather, location, and sound.
 
+**Try it:** [foghorn-lime.vercel.app](https://foghorn-lime.vercel.app/)
+
 ---
 
 ## Why
@@ -21,7 +23,35 @@ Foghorn does not try to fix grief. It holds space for it through repeatable, bou
 - **Historical weather matching** -- "Today's weather is similar to Falmouth, January 14, 1999." Temporal context without narrative.
 - **Ritual capture** -- Record intensity (1-10) and loss type per ritual. No journaling. No prompts.
 - **Grief phase awareness** -- Active, Processing, Integration, Memorial. Self-reported only. Never auto-detected. Never framed as progress.
-- **Exit strategies** -- Memorial mode (anniversaries only), archive mode (saved but silent), or full delete with export. Leaving is a valid outcome.
+- **Retroactive entry** -- Missed a day? Add past rituals with full context. No guilt.
+- **Field notes** -- Longer research memos, separate from ritual data.
+- **Quarterly check-in** -- Five-question validated instrument for tracking shifts over time. 90-day reminder, never forced.
+- **Analytics** -- Total rituals, monthly frequency, average intensity, loss type breakdown, intensity trends. All computed locally.
+- **Data export** -- Full JSON and CSV export for analysis. Your data, your formats.
+- **Onboarding** -- Three-step setup: name, weather preferences, interaction mode.
+
+---
+
+## Status
+
+**Core features are implemented and working.** Foghorn is in active use as a research artifact.
+
+| Feature | Status |
+|---------|--------|
+| Daily weather check-in | Done |
+| Foghorn audio (real recording) | Done |
+| Historical weather matching (1985-2003) | Done |
+| Ritual capture (intensity, loss type) | Done |
+| Grief phase tracking (self-reported) | Done |
+| Analytics and growth tracking | Done |
+| Field notes | Done |
+| Quarterly check-in instrument | Done |
+| Retroactive ritual entry | Done |
+| Onboarding flow | Done |
+| Settings (triggers, location) | Done |
+| Data export (JSON + CSV) | Done |
+| Exit strategies (memorial/archive modes) | Planned |
+| Push notifications | Planned |
 
 ---
 
