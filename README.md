@@ -1,5 +1,7 @@
 # Foghorn
 
+[![Version](https://img.shields.io/badge/version-1.0.0-green)]()
+
 **A place-based grief processing app using daily weather rituals and sensory memory.**
 
 Foghorn is software for ambiguous loss -- the kind of grief where the person is still alive but gone. No journaling prompts. No five stages. Just a daily ritual anchored in weather, location, and sound.

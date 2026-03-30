@@ -28,6 +28,7 @@
   max-height: calc(100% - var(--space-lg));
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
+  animation: fadeSlideIn 200ms ease-out;
 }
 
 .onboarding__title {
@@ -161,6 +162,7 @@
   cursor: pointer;
   transition: border-color var(--transition-fast);
   text-align: left;
+  min-height: 44px;
 }
 
 .onboarding__card:hover {
@@ -224,6 +226,17 @@
 }
 
 /* ==================== */
+/* Privacy note */
+/* ==================== */
+
+.onboarding__privacy {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-sm) 0;
+}
+
+/* ==================== */
 /* Actions */
 /* ==================== */
 
@@ -280,6 +293,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .onboarding__panel {
+    animation: none;
+  }
+
   .onboarding__pill,
   .onboarding__card,
   .onboarding__next {

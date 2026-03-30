@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import useDialogFocus from '../hooks/useDialogFocus'
 import { createRitual } from '../../core/domain/ritual'
 import { saveRitual } from '../services/storage/ritual-storage'
 import content from '../../content/en.json'
@@ -37,6 +38,7 @@ export default function RetroRitualCapture({ onSaved, onCancel }) {
   const [notes, setNotes]             = useState('')
   const [saving, setSaving]           = useState(false)
   const [saved, setSaved]             = useState(false)
+  const panelRef = useDialogFocus(onCancel)
 
   async function handleSave() {
     if (!date) return
@@ -64,9 +66,9 @@ export default function RetroRitualCapture({ onSaved, onCancel }) {
   }
 
   return (
-    <div className="retro-capture" role="dialog" aria-labelledby="retro-title">
+    <div className="retro-capture" role="dialog" aria-modal="true" aria-labelledby="retro-title">
       <div className="retro-capture__backdrop" onClick={onCancel} aria-hidden="true" />
-      <div className="retro-capture__panel">
+      <div className="retro-capture__panel" ref={panelRef} tabIndex={-1}>
         <h3 className="retro-capture__title" id="retro-title">{content.retro.title}</h3>
 
         {saved ? (

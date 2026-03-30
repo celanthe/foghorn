@@ -6,7 +6,7 @@
   "weather": {
     "loading": "Loading weather...",
     "error": "Could not load weather",
-    "errorHint": "Make sure to add your OpenWeatherMap API key to .env",
+    "errorHint": "Weather is temporarily unavailable. Please try again in a few minutes.",
     "refresh": "Refresh weather",
     "location": "Location",
     "condition": "Condition",
@@ -17,7 +17,7 @@
     "windSpeed": "{speed} mph {direction}"
   },
   "foghorn": {
-    "trigger": "⚠️ Foghorn weather detected",
+    "trigger": "Foghorn weather detected",
     "playButton": "Play Foghorn",
     "playing": "Playing Foghorn...",
     "error": "Could not play foghorn sound",
@@ -44,6 +44,7 @@
     "cancelCapture": "Not now",
     "intensityPrompt": "How present is the grief right now?",
     "lossTypePrompt": "What's with you?",
+    "firstRitual": "Your first ritual begins whenever you're ready",
     "historyToggle": "Journal",
     "historyClose": "Close",
     "export": "Export data",
@@ -142,11 +143,12 @@
     "lastCheckin": "Last: {date}",
     "neverCheckin": "Never completed",
     "save": "Save settings",
-    "saved": "Saved"
+    "saved": "Saved",
+    "privacy": "Everything stays on your device. No accounts, no cloud, no tracking."
   },
   "phase": {
     "label": "Where are you?",
-    "unset": "Not tracking"
+    "unset": "Just here"
   },
   "memory": {
     "prompt": "What do you remember?",

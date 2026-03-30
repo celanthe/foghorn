@@ -1,0 +1,16 @@
+{
+  "name": "Foghorn",
+  "short_name": "Foghorn",
+  "description": "Process grief through daily weather rituals and sensory memory.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F2ED",
+  "theme_color": "#2B3A42",
+  "icons": [
+    {
+      "src": "/foghorn-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

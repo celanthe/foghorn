@@ -161,6 +161,18 @@
 }
 
 /* ==================== */
+/* Smooth Scroll */
+/* ==================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ==================== */
 /* Global Resets */
 /* ==================== */
 
@@ -231,6 +243,10 @@ body::after {
     --font-size-3xl: 1.75rem;
     --font-size-2xl: 1.375rem;
   }
+
+  body {
+    background-attachment: scroll;
+  }
 }
 
 /* ==================== */
@@ -256,4 +272,9 @@ body::after {
     --border-color-subtle: rgba(139, 115, 85, 0.3);
     --border-color-medium: rgba(139, 115, 85, 0.5);
   }
+}
+
+::selection {
+  background: rgba(29, 70, 82, 0.25);
+  color: var(--color-text-primary);
 }

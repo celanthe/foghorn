@@ -38,7 +38,7 @@
 }
 
 .ritual-analytics__stat-value {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-sans);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-light);
   color: var(--color-text-primary);
@@ -48,8 +48,8 @@
 .ritual-analytics__stat-label {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.03em;
 }
 
 /* ==================== */
@@ -61,11 +61,10 @@
 }
 
 .ritual-analytics__section-title {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03em;
   margin-bottom: var(--space-sm);
 }
 
@@ -112,7 +111,7 @@
 }
 
 .ritual-analytics__month-label {
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   line-height: 1;
 }
