@@ -182,6 +182,7 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
       </div>
 
       <div className="settings__footer">
+        <p className="settings__privacy">{content.settings.privacy}</p>
         <button className="settings__save" onClick={handleSave}>
           {saveStatus === 'saved' ? content.settings.saved : content.settings.save}
         </button>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import content from '../../content/en.json'
 import './Onboarding.css'
 
@@ -32,7 +32,12 @@ export default function Onboarding({ onComplete }) {
   const [mode, setMode] = useState('ambient')
   const [companionInterval, setCompanionInterval] = useState('daily')
 
+  const panelRef = useRef(null)
   const c = content.onboarding
+
+  useEffect(() => {
+    panelRef.current?.focus()
+  }, [step])
 
   function handleNext() {
     if (step < TOTAL_STEPS - 1) {
@@ -67,10 +72,10 @@ export default function Onboarding({ onComplete }) {
   const isLastStep = step === TOTAL_STEPS - 1
 
   return (
-    <div className="onboarding">
+    <div className="onboarding" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
       <div className="onboarding__backdrop" />
-      <div className="onboarding__panel">
-        <h1 className="onboarding__title">{c.title}</h1>
+      <div className="onboarding__panel" ref={panelRef} tabIndex={-1}>
+        <h1 className="onboarding__title" id="onboarding-title">{c.title}</h1>
         <p className="onboarding__subtitle">{c.subtitle}</p>
         <p className="onboarding__step">
           {c.stepOf.replace('{current}', step + 1).replace('{total}', TOTAL_STEPS)}
@@ -89,7 +94,6 @@ export default function Onboarding({ onComplete }) {
               value={name}
               onChange={e => setName(e.target.value)}
               placeholder={c.namePlaceholder}
-              autoFocus
             />
           </div>
         )}
@@ -198,6 +202,11 @@ export default function Onboarding({ onComplete }) {
               </div>
             )}
           </div>
+        )}
+
+        {/* Privacy note on final step */}
+        {isLastStep && (
+          <p className="onboarding__privacy">{content.settings.privacy}</p>
         )}
 
         {/* Navigation */}

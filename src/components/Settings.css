@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   max-height: 520px;
+  animation: fadeSlideIn 200ms ease-out;
 }
 
 .settings__header {
@@ -72,8 +73,8 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.03em;
   margin-bottom: var(--space-sm);
 }
 
@@ -152,11 +153,18 @@
   padding: 0;
   text-decoration: underline;
   text-underline-offset: 2px;
-  min-height: 32px;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-sm);
 }
 
 .settings__text-btn:hover {
   color: var(--color-text-secondary);
+}
+
+.settings__text-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
 }
 
 /* ==================== */
@@ -232,15 +240,14 @@
 }
 
 .settings__checkin-score-label {
-  font-size: 9px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
-  text-transform: uppercase;
   letter-spacing: 0.3px;
   text-align: center;
 }
 
 .settings__checkin-score-value {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-sans);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
 }
@@ -260,6 +267,13 @@
 /* ==================== */
 /* Footer / save */
 /* ==================== */
+
+.settings__privacy {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-sm) 0;
+}
 
 .settings__footer {
   padding: var(--space-md) var(--space-lg);
@@ -283,15 +297,28 @@
   transition: opacity var(--transition-fast);
 }
 
+.settings__save:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
 .settings__save:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .settings {
+    animation: none;
+  }
+
   .settings__close,
   .settings__checkin-btn,
   .settings__save {
     transition: none;
+  }
+
+  .settings__save:hover:not(:disabled) {
+    transform: none;
   }
 }

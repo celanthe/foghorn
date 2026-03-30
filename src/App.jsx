@@ -145,7 +145,7 @@ function App() {
       setFoghornPlayed(false)
       setCapturingRitual(false)
       setRitualSaved(true)
-      setTimeout(() => setRitualSaved(false), 2500)
+      setTimeout(() => setRitualSaved(false), 5000)
 
     } catch (err) {
       if (import.meta.env.DEV) {
@@ -188,7 +188,10 @@ function App() {
   if (loading && !weather) {
     return (
       <div className="app">
-        <div className="loading">{content.weather.loading}</div>
+        <div className="loading">
+          <h1 className="loading__title">Foghorn</h1>
+          <p className="loading__text">{content.weather.loading}</p>
+        </div>
       </div>
     )
   }
@@ -215,8 +218,12 @@ function App() {
 
   return (
     <div className="app">
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <header className="header">
-        <h1 className="title">Foghorn</h1>
+        <div className="header-title-group">
+          <h1 className="title">Foghorn</h1>
+          <p className="tagline">{content.app.tagline}</p>
+        </div>
         <div className="header-actions">
           <button
             className="header-button"
@@ -237,7 +244,10 @@ function App() {
             onClick={() => { setShowingSettings(s => !s); setShowingHistory(false); setShowingNotes(false) }}
             aria-label={content.settings.title}
           >
-            ⚙
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
           </button>
           <button
             className="refresh-button"
@@ -245,7 +255,10 @@ function App() {
             disabled={loading}
             aria-label={content.weather.refresh}
           >
-            ↻
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
           </button>
         </div>
       </header>
@@ -281,7 +294,7 @@ function App() {
       )}
 
       {weather && !showingHistory && !showingSettings && !showingNotes && (
-        <main className="main">
+        <main className="main" id="main-content">
 
           {/* Weather Display */}
           <div className="weather">
@@ -310,6 +323,10 @@ function App() {
                 : content.ritual.count.replace('{count}', ritualCount)
               }
             </div>
+          )}
+
+          {todayCount === 0 && !capturingRitual && !ritualSaved && (
+            <p className="ritual-prompt">{content.ritual.firstRitual}</p>
           )}
 
           {/* Quarterly check-in notice — surfaces gently when overdue */}
@@ -357,17 +374,31 @@ function App() {
             onClick={handlePlayFoghorn}
             disabled={playing}
           >
-            <span className="play-icon" aria-hidden="true">🔊</span>
-            <span className="play-text">
+            {playing ? (
+              <svg className="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <rect x="6" y="6" width="12" height="12" rx="2"/>
+              </svg>
+            ) : (
+              <svg className="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+              </svg>
+            )}
+            <span className="play-text" aria-live="polite">
               {playing ? content.foghorn.playing : content.foghorn.playButton}
             </span>
           </button>
 
           {/* Record Ritual — opens capture panel or shows success */}
           {ritualSaved ? (
-            <div className="ritual-saved" aria-live="polite">
+            <button
+              className="ritual-saved"
+              aria-live="polite"
+              onClick={() => setRitualSaved(false)}
+            >
               ✓ {content.ritual.recorded}
-            </div>
+            </button>
           ) : capturingRitual ? (
             <RitualCapture
               onSave={handleSaveRitual}
@@ -379,7 +410,10 @@ function App() {
               className="record-button"
               onClick={handleOpenCapture}
             >
-              <span className="record-icon" aria-hidden="true">📝</span>
+              <svg className="record-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
               <span className="record-text">{content.ritual.recordButton}</span>
             </button>
           )}

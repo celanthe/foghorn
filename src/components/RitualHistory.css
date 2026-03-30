@@ -1,11 +1,17 @@
 @import '../../design-system/tokens.css';
 
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .ritual-history {
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 300px;
   position: relative;
+  animation: fadeSlideIn 200ms ease-out;
 }
 
 .ritual-history__header {
@@ -35,7 +41,7 @@
   cursor: pointer;
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
-  min-height: 36px;
+  min-height: 44px;
   transition: color var(--transition-base), background var(--transition-base);
 }
 
@@ -177,6 +183,12 @@
   opacity: 1;
 }
 
+@media (hover: none) {
+  .ritual-history__delete {
+    opacity: 0.5;
+  }
+}
+
 .ritual-history__notes {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
@@ -235,4 +247,17 @@
 .ritual-history__tag--phase {
   border-color: var(--color-tide-pool-blue);
   color: var(--color-tide-pool-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ritual-history {
+    animation: none;
+  }
+
+  .ritual-history__tab,
+  .ritual-history__export,
+  .ritual-history__close,
+  .ritual-history__delete {
+    transition: none;
+  }
 }

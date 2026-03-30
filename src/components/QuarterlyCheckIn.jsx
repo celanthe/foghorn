@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import useDialogFocus from '../hooks/useDialogFocus'
 import content from '../../content/en.json'
 import './QuarterlyCheckIn.css'
 
@@ -24,6 +25,7 @@ export default function QuarterlyCheckIn({ onComplete, onSkip }) {
   const [notes, setNotes]   = useState('')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved]   = useState(false)
+  const panelRef = useDialogFocus(onSkip)
 
   const allAnswered = scores.every(s => s !== null)
 
@@ -53,9 +55,9 @@ export default function QuarterlyCheckIn({ onComplete, onSkip }) {
   }
 
   return (
-    <div className="quarterly-checkin" role="dialog" aria-labelledby="checkin-title">
+    <div className="quarterly-checkin" role="dialog" aria-modal="true" aria-labelledby="checkin-title">
       <div className="quarterly-checkin__backdrop" onClick={onSkip} aria-hidden="true" />
-      <div className="quarterly-checkin__panel">
+      <div className="quarterly-checkin__panel" ref={panelRef} tabIndex={-1}>
         <h2 className="quarterly-checkin__title" id="checkin-title">
           {content.checkin.title}
         </h2>

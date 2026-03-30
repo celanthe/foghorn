@@ -28,6 +28,7 @@
   max-height: calc(100% - var(--space-lg));
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
+  animation: fadeSlideIn 200ms ease-out;
 }
 
 .quarterly-checkin__title {
@@ -224,5 +225,9 @@
   .quarterly-checkin__dot,
   .quarterly-checkin__save {
     transition: none;
+  }
+
+  .quarterly-checkin__panel {
+    animation: none;
   }
 }

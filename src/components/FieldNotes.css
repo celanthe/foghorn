@@ -1,9 +1,15 @@
 @import '../../design-system/tokens.css';
 
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .field-notes {
   display: flex;
   flex-direction: column;
   max-height: 520px;
+  animation: fadeSlideIn 200ms ease-out;
 }
 
 .field-notes__header {
@@ -153,6 +159,12 @@
   color: var(--color-text-secondary);
 }
 
+.field-notes__cancel:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
+}
+
 .field-notes__hint {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
@@ -233,6 +245,12 @@
   opacity: 1;
 }
 
+@media (hover: none) {
+  .field-notes__delete {
+    opacity: 0.5;
+  }
+}
+
 .field-notes__body {
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
@@ -240,4 +258,15 @@
   white-space: pre-wrap;
   word-break: break-word;
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-notes {
+    animation: none;
+  }
+
+  .field-notes__new,
+  .field-notes__delete {
+    transition: none;
+  }
 }
