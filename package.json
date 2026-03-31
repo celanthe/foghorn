@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/crimson-text": "^5.2.7",
     "@fontsource/merriweather": "^5.2.11",
+    "@vercel/analytics": "^2.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
