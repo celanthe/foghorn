@@ -174,7 +174,6 @@
 .settings__checkin-meta {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
-  font-style: italic;
   margin-bottom: var(--space-sm);
 }
 
@@ -255,7 +254,6 @@
 .settings__checkin-entry-notes {
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
-  font-style: italic;
   line-height: var(--line-height-relaxed);
   margin-top: var(--space-xs);
   padding-top: var(--space-xs);
@@ -273,6 +271,12 @@
   color: var(--color-text-tertiary);
   text-align: center;
   padding: var(--space-sm) 0;
+}
+
+.settings__privacy-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .settings__footer {

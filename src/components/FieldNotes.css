@@ -107,7 +107,6 @@
 
 .field-notes__textarea::placeholder {
   color: var(--color-text-tertiary);
-  font-style: italic;
 }
 
 .field-notes__textarea:focus-visible {
@@ -168,7 +167,6 @@
 .field-notes__hint {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
-  font-style: italic;
   margin-left: auto;
 }
 
@@ -180,7 +178,6 @@
 .field-notes__empty {
   padding: var(--space-xl) var(--space-lg);
   color: var(--color-text-tertiary);
-  font-style: italic;
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
 }

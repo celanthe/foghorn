@@ -42,7 +42,6 @@
 .onboarding__subtitle {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
-  font-style: italic;
   margin-bottom: var(--space-lg);
   line-height: var(--line-height-relaxed);
 }
@@ -65,7 +64,6 @@
   display: block;
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-style: italic;
   margin-bottom: var(--space-sm);
 }
 
@@ -84,7 +82,6 @@
 
 .onboarding__input::placeholder {
   color: var(--color-text-tertiary);
-  font-style: italic;
 }
 
 .onboarding__input:focus-visible {
@@ -103,7 +100,6 @@
 .onboarding__section-label {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-style: italic;
   margin-bottom: var(--space-sm);
 }
 
@@ -204,7 +200,6 @@
 .onboarding__interval-label {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-style: italic;
   margin-bottom: var(--space-xs);
   display: block;
 }

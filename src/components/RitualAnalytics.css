@@ -10,7 +10,6 @@
   padding: var(--space-xl);
   text-align: center;
   color: var(--color-text-tertiary);
-  font-style: italic;
   font-size: var(--font-size-sm);
 }
 

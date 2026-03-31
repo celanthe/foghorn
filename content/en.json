@@ -14,7 +14,12 @@
     "feelsLike": "Feels like {temp}°",
     "wind": "Wind",
     "humidity": "Humidity",
-    "windSpeed": "{speed} mph {direction}"
+    "windSpeed": "{speed} mph {direction}",
+    "tempUnit": "°F",
+    "feelsLikeShort": "Feels like",
+    "defaultLocation": "Using default location",
+    "windUnit": "mph",
+    "unavailable": "Weather unavailable"
   },
   "foghorn": {
     "trigger": "Foghorn weather detected",
@@ -87,7 +92,13 @@
     "tabHistory": "History",
     "tabStats": "Stats",
     "deleteAriaLabel": "Delete ritual",
-    "deleteConfirm": "Remove this ritual?"
+    "deleteConfirm": "Remove this ritual?",
+    "addPast": "+ Past",
+    "exportCSV": "CSV",
+    "exportJSON": "JSON",
+    "exportCSVTitle": "Export as CSV for analysis",
+    "exportJSONTitle": "Export as JSON backup",
+    "exporting": "..."
   },
   "analytics": {
     "totalRituals": "Total rituals",
@@ -208,6 +219,17 @@
     "network": "Network error - check your connection",
     "location": "Could not get your location",
     "audio": "Could not load foghorn audio",
-    "unknown": "An unexpected error occurred"
+    "unknown": "Something went wrong. Your data is safe."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "message": "Foghorn hit an unexpected problem. Your data is safe — everything is stored on your device. You can try again or reload the page.",
+    "tryAgain": "Try again",
+    "reload": "Reload page"
+  },
+  "locationConsent": {
+    "prompt": "Foghorn checks the weather where you are. Your location is sent to OpenWeatherMap and nowhere else. Allow?",
+    "accept": "Allow location",
+    "deny": "No thanks"
   }
 }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Foghorn</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      line-height: 1.7;
+      color: #1C252B;
+      background: #E5E2DB;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.125rem; margin-top: 2rem; margin-bottom: 0.5rem; }
+    p, li { margin-bottom: 0.75rem; }
+    ul { padding-left: 1.25rem; }
+    a { color: #1D4652; }
+    .updated { font-size: 0.875rem; color: #3E4A4F; margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: March 30, 2026</p>
+
+  <p>
+    Foghorn is a grief processing tool. The data it handles is deeply personal,
+    and we treat it that way. Here is exactly what happens with your information.
+  </p>
+
+  <h2>What Foghorn stores</h2>
+  <p>When you use Foghorn, the following data is saved on your device:</p>
+  <ul>
+    <li>Ritual timestamps (when you recorded a ritual)</li>
+    <li>Grief intensity (a number from 1 to 10, self-reported)</li>
+    <li>Loss type (person, relationship, self, place, or multiple)</li>
+    <li>Grief phase (active, processing, integration, memorial)</li>
+    <li>Your name (as entered during onboarding)</li>
+    <li>Field notes (free-text reflections you write)</li>
+    <li>Weather data associated with each ritual (condition, temperature, wind, humidity)</li>
+    <li>Quarterly reflection scores and notes</li>
+  </ul>
+
+  <h2>Where your data lives</h2>
+  <p>
+    All of this data is stored locally on your device using IndexedDB and
+    localStorage. It never leaves your device. There is no server, no account,
+    no cloud sync. Foghorn does not have a backend that receives your data.
+  </p>
+
+  <h2>The one exception: weather and location</h2>
+  <p>
+    To show you the current weather, Foghorn asks for your geographic location
+    (latitude and longitude) through your browser. If you grant permission,
+    that location is sent to the
+    <a href="https://openweathermap.org/privacy-policy" target="_blank" rel="noopener noreferrer">OpenWeatherMap API</a>
+    to fetch weather data. This is the only data that leaves your device.
+  </p>
+  <p>
+    Foghorn does not store your location on any server. OpenWeatherMap receives
+    your coordinates to fulfill the weather request; their own privacy policy
+    governs how they handle that data.
+  </p>
+  <p>
+    You can decline the location prompt. Foghorn will fall back to a default
+    location, or you can set a manual location in Settings.
+  </p>
+
+  <h2>No cookies, no analytics, no tracking</h2>
+  <p>
+    Foghorn does not use cookies. There are no analytics scripts, no tracking
+    pixels, no fingerprinting, no telemetry of any kind. We genuinely do not
+    know who uses this app or how.
+  </p>
+
+  <h2>Your data, your control</h2>
+  <p>
+    You can export all of your data as JSON or CSV from the Journal view at
+    any time. You can delete all stored data from your browser's developer tools
+    by clearing site data, or by uninstalling the app.
+  </p>
+
+  <h2>Sensitive data acknowledgment (GDPR Art. 9)</h2>
+  <p>
+    Grief intensity, loss type, grief phase, and reflection scores are
+    sensitive personal data under GDPR Article 9 (data concerning health and
+    emotional wellbeing). Foghorn stores this data exclusively on your device.
+    It is never transmitted to any server, never processed remotely, and never
+    shared with anyone. You are the sole controller of this data.
+  </p>
+
+  <h2>Third-party services</h2>
+  <ul>
+    <li>
+      <strong>OpenWeatherMap</strong> - receives your latitude and longitude
+      to return weather data. No other personal information is sent.
+      <a href="https://openweathermap.org/privacy-policy" target="_blank" rel="noopener noreferrer">Their privacy policy</a>.
+    </li>
+    <li>
+      <strong>Open-Meteo</strong> - receives latitude, longitude, and date ranges
+      for historical weather matching. No personal information beyond coordinates.
+      <a href="https://open-meteo.com/en/terms" target="_blank" rel="noopener noreferrer">Their terms</a>.
+    </li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>
+    Questions or concerns? Open an issue on the
+    <a href="https://github.com/celanthe/foghorn" target="_blank" rel="noopener noreferrer">Foghorn GitHub repository</a>.
+  </p>
+</body>
+</html>

@@ -27,8 +27,11 @@ function isCheckinDue() {
   return daysSince >= 90
 }
 
+const LOCATION_CONSENT_KEY = 'foghorn_location_consent'
+
 function App() {
   const [onboardingComplete, setOnboardingComplete] = useState(() => loadOnboarding() !== null)
+  const [locationConsent, setLocationConsent]    = useState(() => localStorage.getItem(LOCATION_CONSENT_KEY))
   const [weather, setWeather]                   = useState(null)
   const [loading, setLoading]                   = useState(true)
   const [error, setError]                       = useState(null)
@@ -49,6 +52,12 @@ function App() {
   const [settings, setSettings]                 = useState(() => loadSettings())
   const [currentPhase, setCurrentPhase]         = useState(() => localStorage.getItem('foghorn_phase') || null)
 
+  function handleLocationConsent(granted) {
+    const value = granted ? 'granted' : 'denied'
+    localStorage.setItem(LOCATION_CONSENT_KEY, value)
+    setLocationConsent(value)
+  }
+
   useEffect(() => {
     async function loadWeather() {
       try {
@@ -58,9 +67,23 @@ function App() {
         const currentSettings = loadSettings()
         setSettings(currentSettings)
 
-        const loc = currentSettings.locationOverride
-          ? { ...currentSettings.locationOverride, usingDefault: false }
-          : await getUserLocation()
+        // If no location override and no consent yet, wait for consent
+        if (!currentSettings.locationOverride && !locationConsent) {
+          setLoading(false)
+          return
+        }
+
+        let loc
+        if (currentSettings.locationOverride) {
+          loc = { ...currentSettings.locationOverride, usingDefault: false }
+        } else if (locationConsent === 'granted') {
+          loc = await getUserLocation()
+        } else {
+          // Consent denied — use default location
+          const defaultLat = parseFloat(import.meta.env.VITE_DEFAULT_LAT)
+          const defaultLon = parseFloat(import.meta.env.VITE_DEFAULT_LON)
+          loc = { lat: defaultLat, lon: defaultLon, usingDefault: true }
+        }
         setLocation(loc)
         if (loc.usingDefault) setUsingDefault(true)
 
@@ -74,27 +97,30 @@ function App() {
 
         setWeather(weatherData)
 
-        const count = await getRitualCount()
-        setRitualCount(count)
-
-        const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0)
-        const todayEnd   = new Date(); todayEnd.setHours(23, 59, 59, 999)
-        const todayRituals = await getRitualsByDateRange(todayStart, todayEnd)
-        setTodayCount(todayRituals.length)
-
-
       } catch (err) {
         if (import.meta.env.DEV) {
           console.error('[App] Failed to load weather:', err)
         }
-        setError(import.meta.env.DEV ? err.message : 'Unable to load weather. Try again in a moment.')
+        setError(import.meta.env.DEV ? err.message : content.weather.errorHint)
       } finally {
+        // Always load ritual counts, even if weather failed
+        try {
+          const count = await getRitualCount()
+          setRitualCount(count)
+
+          const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0)
+          const todayEnd   = new Date(); todayEnd.setHours(23, 59, 59, 999)
+          const todayRituals = await getRitualsByDateRange(todayStart, todayEnd)
+          setTodayCount(todayRituals.length)
+        } catch (e) {
+          if (import.meta.env.DEV) console.error('[App] Failed to load ritual counts:', e)
+        }
         setLoading(false)
       }
     }
 
     loadWeather()
-  }, [])
+  }, [locationConsent])
 
   async function handlePlayFoghorn() {
     try {
@@ -126,12 +152,11 @@ function App() {
   }
 
   async function handleSaveRitual({ intensity, lossType, duration, notes }) {
-    if (!weather) return
-
     try {
       setRecordingRitual(true)
 
-      const ritual = createRitual(weather, foghornPlayed, intensity, lossType, duration, notes, currentPhase)
+      const weatherContext = weather || null
+      const ritual = createRitual(weatherContext, foghornPlayed, intensity, lossType, duration, notes, currentPhase)
       await saveRitual(ritual)
 
       const count = await getRitualCount()
@@ -171,7 +196,7 @@ function App() {
       weatherData.shouldPlayFoghorn = shouldPlay
       setWeather(weatherData)
     } catch (err) {
-      setError(import.meta.env.DEV ? err.message : 'Unable to refresh weather.')
+      setError(import.meta.env.DEV ? err.message : content.weather.errorHint)
     } finally {
       setLoading(false)
     }
@@ -185,27 +210,43 @@ function App() {
     )
   }
 
+  if (!locationConsent && !loadSettings().locationOverride) {
+    return (
+      <div className="app">
+        <div className="location-consent">
+          <h1 className="location-consent__title">{content.app.title}</h1>
+          <p className="location-consent__prompt">{content.locationConsent.prompt}</p>
+          <div className="location-consent__actions">
+            <button
+              className="location-consent__accept"
+              onClick={() => handleLocationConsent(true)}
+            >
+              {content.locationConsent.accept}
+            </button>
+            <button
+              className="location-consent__deny"
+              onClick={() => handleLocationConsent(false)}
+            >
+              {content.locationConsent.deny}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (loading && !weather) {
     return (
       <div className="app">
         <div className="loading">
-          <h1 className="loading__title">Foghorn</h1>
+          <h1 className="loading__title">{content.app.title}</h1>
           <p className="loading__text">{content.weather.loading}</p>
         </div>
       </div>
     )
   }
 
-  if (error && !weather) {
-    return (
-      <div className="app">
-        <div className="error">
-          <p>{error}</p>
-          <p className="hint">{content.weather.errorHint}</p>
-        </div>
-      </div>
-    )
-  }
+  /* Weather errors are now shown inline — ritual UI stays accessible */
 
   const weatherEmoji = weather ? (
     weather.condition === 'Fog' || weather.condition === 'Mist' || weather.condition === 'Haze' ? '🌫️' :
@@ -221,7 +262,7 @@ function App() {
       <a href="#main-content" className="skip-link">Skip to content</a>
       <header className="header">
         <div className="header-title-group">
-          <h1 className="title">Foghorn</h1>
+          <h1 className="title">{content.app.title}</h1>
           <p className="tagline">{content.app.tagline}</p>
         </div>
         <div className="header-actions">
@@ -293,26 +334,37 @@ function App() {
         />
       )}
 
-      {weather && !showingHistory && !showingSettings && !showingNotes && (
+      {!showingHistory && !showingSettings && !showingNotes && (
         <main className="main" id="main-content">
 
           {/* Weather Display */}
-          <div className="weather">
-            <div className="weather-icon" aria-hidden="true">{weatherEmoji}</div>
-            <div className="weather-info">
-              <div className="weather-location">{weather.location}</div>
-              <div className="weather-condition">{weather.condition}</div>
-              <div className="weather-description">{weather.description}</div>
+          {weather ? (
+            <div className="weather">
+              <div className="weather-icon" aria-hidden="true">{weatherEmoji}</div>
+              <div className="weather-info">
+                <div className="weather-location">{weather.location}</div>
+                <div className="weather-condition">{weather.condition}</div>
+                <div className="weather-description">{weather.description}</div>
+              </div>
+              <div className="weather-temp">
+                <div className="temp-value">{weather.temp}{content.weather.tempUnit}</div>
+                <div className="temp-feels">{content.weather.feelsLikeShort} {weather.feelsLike}°</div>
+              </div>
             </div>
-            <div className="weather-temp">
-              <div className="temp-value">{weather.temp}°F</div>
-              <div className="temp-feels">Feels like {weather.feelsLike}°</div>
+          ) : loading ? (
+            <div className="weather weather--loading">
+              <p>{content.weather.loading}</p>
             </div>
-          </div>
+          ) : error ? (
+            <div className="weather weather--error">
+              <p>{content.weather.unavailable}</p>
+              <p className="hint">{content.weather.errorHint}</p>
+            </div>
+          ) : null}
 
           {/* Default location notice (Athalia: surface the fallback) */}
           {usingDefaultLocation && (
-            <div className="location-note">Using default location</div>
+            <div className="location-note">{content.weather.defaultLocation}</div>
           )}
 
           {/* Ritual Count — today + total */}
@@ -362,7 +414,7 @@ function App() {
           </div>
 
           {/* Foghorn Trigger — gentle, no alarm emoji (Kilara) */}
-          {weather.shouldPlayFoghorn && (
+          {weather && weather.shouldPlayFoghorn && (
             <div className="foghorn-trigger">
               {content.foghorn.trigger}
             </div>
@@ -419,21 +471,23 @@ function App() {
           )}
 
           {/* Historical Match — between buttons and details (Kilara) */}
-          <HistoricalMatch weather={weather} />
+          {weather && <HistoricalMatch weather={weather} />}
 
           {/* Wind & Humidity */}
-          <div className="details">
-            <div className="detail-item">
-              <span className="detail-label">{content.weather.wind}</span>
-              <span className="detail-value">
-                {weather.wind.speed} mph {weather.wind.direction}
-              </span>
+          {weather && (
+            <div className="details">
+              <div className="detail-item">
+                <span className="detail-label">{content.weather.wind}</span>
+                <span className="detail-value">
+                  {weather.wind.speed} {content.weather.windUnit} {weather.wind.direction}
+                </span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">{content.weather.humidity}</span>
+                <span className="detail-value">{weather.humidity}%</span>
+              </div>
             </div>
-            <div className="detail-item">
-              <span className="detail-label">{content.weather.humidity}</span>
-              <span className="detail-value">{weather.humidity}%</span>
-            </div>
-          </div>
+          )}
 
         </main>
       )}

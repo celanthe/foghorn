@@ -182,7 +182,13 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
       </div>
 
       <div className="settings__footer">
-        <p className="settings__privacy">{content.settings.privacy}</p>
+        <p className="settings__privacy">
+          {content.settings.privacy}
+          {' '}
+          <a href="/privacy.html" target="_blank" rel="noopener noreferrer" className="settings__privacy-link">
+            Privacy policy
+          </a>
+        </p>
         <button className="settings__save" onClick={handleSave}>
           {saveStatus === 'saved' ? content.settings.saved : content.settings.save}
         </button>

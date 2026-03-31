@@ -122,7 +122,6 @@
   padding: var(--space-xl);
   text-align: center;
   color: var(--color-text-tertiary);
-  font-style: italic;
   font-size: var(--font-size-sm);
 }
 
@@ -192,7 +191,6 @@
 .ritual-history__notes {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-style: italic;
   margin-bottom: var(--space-xs);
   line-height: var(--line-height-relaxed);
   white-space: pre-wrap;
