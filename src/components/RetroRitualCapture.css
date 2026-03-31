@@ -104,7 +104,6 @@
 .retro-capture__prompt {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-style: italic;
   margin-bottom: var(--space-sm);
 }
 
@@ -185,7 +184,6 @@
 
 .retro-capture__notes::placeholder {
   color: var(--color-text-tertiary);
-  font-style: italic;
 }
 
 .retro-capture__notes:focus-visible {
@@ -255,7 +253,7 @@
   font-family: var(--font-family-serif);
   font-size: var(--font-size-lg);
   color: var(--color-soft-success);
-  font-style: italic;
+  font-weight: var(--font-weight-medium);
 }
 
 @media (prefers-reduced-motion: reduce) {

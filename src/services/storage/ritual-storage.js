@@ -40,9 +40,6 @@ async function initDB() {
 
         // Index by timestamp for chronological queries
         objectStore.createIndex('timestamp', 'timestamp', { unique: false });
-
-        // Index by date for daily ritual queries
-        objectStore.createIndex('date', 'timestamp', { unique: false });
       }
     };
   });

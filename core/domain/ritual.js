@@ -22,14 +22,14 @@ export function createRitual(weather, foghornPlayed, intensity = null, lossType 
   return {
     id: generateRitualId(),
     timestamp: timestamp || new Date().toISOString(),
-    weather: {
+    weather: weather ? {
       condition: weather.condition,
       description: weather.description,
       temp: weather.temp,
       feelsLike: weather.feelsLike,
       location: weather.location,
       wind: weather.wind,
-    },
+    } : null,
     foghornPlayed,
     intensity: intensity ? validateIntensity(intensity) : null,
     lossType: lossType && VALID_LOSS_TYPES.includes(lossType) ? lossType : null,
@@ -71,8 +71,8 @@ export function validateRitual(ritual) {
   if (!ritual.timestamp) {
     throw new Error('Ritual must have timestamp');
   }
-  if (!ritual.weather || !ritual.weather.condition) {
-    throw new Error('Ritual must have weather data');
+  if (ritual.weather && !ritual.weather.condition) {
+    throw new Error('Ritual weather data must include condition');
   }
   if (typeof ritual.foghornPlayed !== 'boolean') {
     throw new Error('foghornPlayed must be boolean');

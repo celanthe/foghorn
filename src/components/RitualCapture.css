@@ -15,7 +15,6 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   margin-bottom: var(--space-sm);
-  font-style: italic;
 }
 
 /* ==================== */
@@ -118,7 +117,6 @@
 
 .ritual-capture__notes::placeholder {
   color: var(--color-text-tertiary);
-  font-style: italic;
 }
 
 .ritual-capture__notes:focus-visible {

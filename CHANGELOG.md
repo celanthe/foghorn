@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.1.0 — 2026-03-30
+
+### Accessibility
+- Bump --font-size-xs from 12px to 13px (affects 33+ locations)
+- Remove all 28 font-style: italic instances across 10 CSS files
+- Fix broken skip-link tokens (--color-deep-ocean/--color-soft-white to valid tokens)
+- Add ErrorBoundary with grief-appropriate messaging
+- Add global input font-size (16px min) to prevent iOS zoom
+- Add overscroll-behavior-y: contain
+
+### Legal and Privacy
+- Add MIT LICENSE file
+- Create privacy policy (GDPR Art. 9 compliant for sensitive grief data)
+- Add geolocation consent flow before sending location to OpenWeatherMap
+- Add privacy policy link in Settings
+
+### PWA
+- Add vite-plugin-pwa with workbox caching (weather: NetworkFirst, historical: CacheFirst)
+- Add service worker registration
+- Add 192px/512px PNG icon entries to manifest
+
+### UX
+- Decouple weather from ritual recording — app works without weather data
+- Migrate all hardcoded strings to content/en.json
+- Change error message to reassurance pattern ("Your data is safe")
+
+### Code Quality
+- Self-host Google Fonts (Merriweather, Crimson Text via @fontsource)
+- Delete 138 lines of dead Lumentide code from core/utils.js
+- Remove duplicate IndexedDB index
+
 ## 1.0.0 — 2026-03-30
 
 ### Accessibility

@@ -96,23 +96,23 @@ export default function RitualHistory({ onClose, onRitualAdded }) {
             onClick={() => setShowingRetro(true)}
             title={content.retro.trigger}
           >
-            + Past
+            {content.history.addPast}
           </button>
           <button
             className="ritual-history__export"
             onClick={handleExportCSV}
             disabled={exportingCSV || !rituals.length}
-            title="Export as CSV for analysis"
+            title={content.history.exportCSVTitle}
           >
-            {exportingCSV ? '...' : 'CSV'}
+            {exportingCSV ? content.history.exporting : content.history.exportCSV}
           </button>
           <button
             className="ritual-history__export"
             onClick={handleExport}
             disabled={exporting || !rituals.length}
-            title="Export as JSON backup"
+            title={content.history.exportJSONTitle}
           >
-            {exporting ? '...' : 'JSON'}
+            {exporting ? content.history.exporting : content.history.exportJSON}
           </button>
           <button
             className="ritual-history__close"
@@ -151,7 +151,10 @@ export default function RitualHistory({ onClose, onRitualAdded }) {
                     <span className="ritual-history__time">{formatted.displayTime}</span>
                   </div>
                   <div className="ritual-history__weather">
-                    {ritual.weather.condition} · {ritual.weather.temp}°F · {ritual.weather.location}
+                    {ritual.weather
+                      ? <>{ritual.weather.condition} · {ritual.weather.temp}{content.weather.tempUnit} · {ritual.weather.location}</>
+                      : content.weather.unavailable
+                    }
                   </div>
                   {ritual.notes && (
                     <div className="ritual-history__notes">{ritual.notes}</div>
