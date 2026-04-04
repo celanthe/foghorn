@@ -205,7 +205,7 @@
 }
 
 .ritual-history__day {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
   font-weight: var(--font-weight-medium);

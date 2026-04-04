@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { exportRituals, deleteAllRituals } from '../services/storage/ritual-storage'
+import { deleteAllNotes } from '../services/storage/field-notes-storage'
 import content from '../../content/en.json'
 import './Settings.css'
 
@@ -39,6 +41,8 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
   const [lonInput, setLonInput]             = useState(initial.locationOverride?.lon?.toString() ?? '')
   const [triggers, setTriggers]             = useState(initial.foghornTriggers)
   const [saveStatus, setSaveStatus]         = useState(null) // null | 'saved'
+  const [archiveStatus, setArchiveStatus]   = useState(null) // null | 'archiving' | 'archived'
+  const [deleteStatus, setDeleteStatus]     = useState(null) // null | 'confirming' | 'deleting' | 'deleted'
 
   const lastCheckin = localStorage.getItem('foghorn_last_checkin')
   const lastCheckinDisplay = lastCheckin
@@ -72,6 +76,62 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
     onSave(settings)
     setSaveStatus('saved')
     setTimeout(() => setSaveStatus(null), 2000)
+  }
+
+  function triggerDownload(data, filename) {
+    const blob = new Blob([data], { type: 'application/json' })
+    const url  = URL.createObjectURL(blob)
+    const a    = document.createElement('a')
+    a.href     = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  async function handleArchive() {
+    try {
+      setArchiveStatus('archiving')
+      const data = await exportRituals()
+      triggerDownload(data, `foghorn-archive-${new Date().toISOString().slice(0,10)}.json`)
+      localStorage.setItem('foghorn_archived', 'true')
+      setArchiveStatus('archived')
+    } catch (err) {
+      if (import.meta.env.DEV) console.error('[Settings] Archive failed:', err)
+      setArchiveStatus(null)
+    }
+  }
+
+  async function handleDeleteEverything() {
+    if (deleteStatus !== 'confirming') {
+      setDeleteStatus('confirming')
+      return
+    }
+    try {
+      setDeleteStatus('deleting')
+      // Export first as a safety net
+      const data = await exportRituals()
+      triggerDownload(data, `foghorn-final-export-${new Date().toISOString().slice(0,10)}.json`)
+      // Clear both IndexedDB databases
+      await deleteAllRituals()
+      await deleteAllNotes()
+      // Clear all localStorage keys
+      const keysToRemove = [
+        'foghorn_checkins', 'foghorn_last_checkin', 'foghorn_onboarding',
+        'foghorn_settings', 'foghorn_phase', 'foghorn_location_consent',
+        'foghorn_archived',
+      ]
+      keysToRemove.forEach(key => localStorage.removeItem(key))
+      setDeleteStatus('deleted')
+    } catch (err) {
+      if (import.meta.env.DEV) console.error('[Settings] Delete failed:', err)
+      setDeleteStatus(null)
+    }
+  }
+
+  function handleCancelDelete() {
+    setDeleteStatus(null)
   }
 
   return (
@@ -178,6 +238,78 @@ export default function Settings({ onClose, onSave, onCheckIn }) {
             </div>
           </section>
         )}
+
+        {/* Moving on — exit strategies */}
+        <section className="settings__section settings__section--moving-on">
+          <h3 className="settings__section-title settings__section-title--moving-on">
+            {content.settings.movingOnTitle}
+          </h3>
+          <p className="settings__moving-on-description">
+            {content.settings.movingOnDescription}
+          </p>
+
+          {/* Archive & Export */}
+          <div className="settings__exit-option">
+            <button
+              className="settings__exit-btn settings__exit-btn--archive"
+              onClick={handleArchive}
+              disabled={archiveStatus === 'archiving' || archiveStatus === 'archived'}
+              aria-label={content.settings.archiveButton}
+            >
+              {archiveStatus === 'archiving'
+                ? content.settings.archiving
+                : archiveStatus === 'archived'
+                ? content.settings.archived
+                : content.settings.archiveButton}
+            </button>
+            <p className="settings__exit-description">
+              {content.settings.archiveDescription}
+            </p>
+          </div>
+
+          {/* Delete Everything */}
+          <div className="settings__exit-option">
+            {deleteStatus === 'deleted' ? (
+              <p className="settings__exit-farewell">{content.settings.deleted}</p>
+            ) : deleteStatus === 'confirming' ? (
+              <div className="settings__delete-confirm" role="alertdialog" aria-label={content.settings.deleteConfirm}>
+                <p className="settings__delete-confirm-text">
+                  {content.settings.deleteConfirm}
+                </p>
+                <div className="settings__delete-confirm-actions">
+                  <button
+                    className="settings__exit-btn settings__exit-btn--delete-confirm"
+                    onClick={handleDeleteEverything}
+                  >
+                    {content.settings.deleteButton}
+                  </button>
+                  <button
+                    className="settings__exit-btn settings__exit-btn--cancel"
+                    onClick={handleCancelDelete}
+                  >
+                    {content.ritual.cancelCapture}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <button
+                  className="settings__exit-btn settings__exit-btn--delete"
+                  onClick={handleDeleteEverything}
+                  disabled={deleteStatus === 'deleting'}
+                  aria-label={content.settings.deleteButton}
+                >
+                  {deleteStatus === 'deleting'
+                    ? content.settings.deleting
+                    : content.settings.deleteButton}
+                </button>
+                <p className="settings__exit-description">
+                  {content.settings.deleteDescription}
+                </p>
+              </>
+            )}
+          </div>
+        </section>
 
       </div>
 

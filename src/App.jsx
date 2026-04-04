@@ -344,7 +344,7 @@ function App() {
               <div className="weather-info">
                 <div className="weather-location">{weather.location}</div>
                 <div className="weather-condition">{weather.condition}</div>
-                <div className="weather-description">{weather.description}</div>
+                <div className="weather-description">{weather.description.charAt(0).toUpperCase() + weather.description.slice(1)}</div>
               </div>
               <div className="weather-temp">
                 <div className="temp-value">{weather.temp}{content.weather.tempUnit}</div>
@@ -410,6 +410,7 @@ function App() {
               <option value="processing">{content.phases.processing}</option>
               <option value="integration">{content.phases.integration}</option>
               <option value="memorial">{content.phases.memorial}</option>
+              <option value="exit">{content.phases.exit}</option>
             </select>
           </div>
 

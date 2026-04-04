@@ -32,7 +32,7 @@
 }
 
 .quarterly-checkin__title {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-normal);
   color: var(--color-text-primary);
@@ -212,7 +212,7 @@
 .quarterly-checkin__saved {
   text-align: center;
   padding: var(--space-xl);
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-lg);
   color: var(--color-soft-success);
   font-weight: var(--font-weight-medium);

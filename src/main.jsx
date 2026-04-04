@@ -1,11 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { inject } from '@vercel/analytics'
 import { registerSW } from 'virtual:pwa-register'
-
-inject()
-import '@fontsource/merriweather'
-import '@fontsource/crimson-text'
+import '@fontsource/atkinson-hyperlegible'
+import '@fontsource/atkinson-hyperlegible/700.css'
 import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'

@@ -127,7 +127,7 @@
 }
 
 .title {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-normal);
   color: var(--color-aged-parchment);
@@ -137,7 +137,7 @@
 .tagline {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   margin-top: var(--space-xs);
 }
 
@@ -282,7 +282,7 @@
 }
 
 .weather-condition {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
@@ -292,7 +292,6 @@
 .weather-description {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  text-transform: capitalize;
 }
 
 .weather-temp {
@@ -685,7 +684,7 @@
   text-align: center;
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   padding: var(--space-sm) 0;
 }
 
@@ -835,12 +834,12 @@
   padding: var(--space-xl);
   text-align: center;
   color: var(--color-text-secondary);
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   animation: gentle-pulse 2s ease-in-out infinite;
 }
 
 .loading__title {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-2xl);
   color: var(--color-text-primary);
   margin-bottom: var(--space-sm);
@@ -1005,7 +1004,7 @@
 }
 
 .location-consent__title {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);

@@ -17,7 +17,9 @@ export default class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('[ErrorBoundary] Caught error:', error, errorInfo);
+    if (import.meta.env.DEV) {
+      console.error('[ErrorBoundary] Caught error:', error, errorInfo);
+    }
   }
 
   handleReset = () => {
@@ -34,9 +36,9 @@ export default class ErrorBoundary extends Component {
           <div className="error-boundary__content">
             <h1 className="error-boundary__title">{content.errorBoundary.title}</h1>
             <p className="error-boundary__message">{content.errorBoundary.message}</p>
-            {this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <details className="error-boundary__details">
-                <summary>Error details</summary>
+                <summary>{content.errorBoundary.details || 'Error details'}</summary>
                 <pre className="error-boundary__error">{this.state.error.toString()}</pre>
               </details>
             )}

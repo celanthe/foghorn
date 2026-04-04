@@ -1,12 +1,13 @@
 {
   "app": {
     "title": "Foghorn",
-    "tagline": "Weather rituals for grief processing"
+    "tagline": "Weather rituals for grief processing",
+    "skipLink": "Skip to content"
   },
   "weather": {
     "loading": "Loading weather...",
     "error": "Could not load weather",
-    "errorHint": "Weather is temporarily unavailable. Please try again in a few minutes.",
+    "errorHint": "Weather couldn't load right now. Try again in a few minutes.",
     "refresh": "Refresh weather",
     "location": "Location",
     "condition": "Condition",
@@ -17,15 +18,15 @@
     "windSpeed": "{speed} mph {direction}",
     "tempUnit": "°F",
     "feelsLikeShort": "Feels like",
-    "defaultLocation": "Using default location",
+    "defaultLocation": "Showing weather for a default location. You can set yours in Settings.",
     "windUnit": "mph",
     "unavailable": "Weather unavailable"
   },
   "foghorn": {
-    "trigger": "Foghorn weather detected",
+    "trigger": "It's foghorn weather.",
     "playButton": "Play Foghorn",
     "playing": "Playing Foghorn...",
-    "error": "Could not play foghorn sound",
+    "error": "The foghorn couldn't play this time.",
     "noAudio": "Foghorn audio not loaded yet"
   },
   "historical": {
@@ -36,15 +37,16 @@
     "active": "Active Grief",
     "processing": "Processing",
     "integration": "Integration",
-    "memorial": "Memorial"
+    "memorial": "Memorial",
+    "exit": "Moving on"
   },
   "ritual": {
-    "recordButton": "Record Ritual",
-    "recording": "Recording...",
-    "recorded": "Ritual Recorded",
+    "recordButton": "Mark this moment",
+    "recording": "Saving...",
+    "recorded": "Ritual saved",
     "count": "{count} rituals",
     "todayCount": "{count} today",
-    "error": "Could not save ritual",
+    "error": "Your ritual couldn't be saved. Nothing was lost.",
     "success": "Ritual saved locally",
     "cancelCapture": "Not now",
     "intensityPrompt": "How present is the grief right now?",
@@ -108,23 +110,23 @@
     "lossBreakdown": "What's been present",
     "monthlyFrequency": "Monthly frequency",
     "recentIntensity": "Recent intensity",
-    "noData": "Record a few rituals to see patterns here."
+    "noData": "Patterns will appear here as you practice."
   },
   "checkin": {
     "title": "Quarterly Reflection",
     "subtitle": "A brief check-in to track where you are. Self-reported only — adapted for personal research.",
     "q1": "How often did grief surface this past month?",
-    "q2": "How much did it affect your daily functioning?",
+    "q2": "How much did grief shape your days?",
     "q3": "How well can you hold the uncertainty of this loss?",
     "q4": "How connected do you feel to life beyond this loss?",
-    "q5": "How much has shifted since your last reflection?",
+    "q5": "Does anything feel different since last time?",
     "scale1": "rarely / not at all",
     "scale5": "constantly / very much",
     "scale3neutral": "somewhat",
     "notesPrompt": "Anything else you want to note? (optional)",
     "save": "Save reflection",
     "skip": "Not now",
-    "notice": "Quarterly reflection available",
+    "notice": "A quarterly reflection is here, if you'd like.",
     "begin": "Begin",
     "saved": "Reflection saved",
     "historyTitle": "Past reflections",
@@ -152,10 +154,22 @@
     "checkinTitle": "Quarterly reflection",
     "checkinButton": "Begin reflection now",
     "lastCheckin": "Last: {date}",
-    "neverCheckin": "Never completed",
+    "neverCheckin": "None yet",
     "save": "Save settings",
     "saved": "Saved",
-    "privacy": "Everything stays on your device. No accounts, no cloud, no tracking."
+    "privacy": "Everything stays on your device. No accounts, no cloud, no tracking.",
+    "privacyLink": "Privacy policy",
+    "movingOnTitle": "Moving on",
+    "movingOnDescription": "When you're ready to step back, these options are here for you. Leaving is not failure \u2014 it's the next part of healing.",
+    "archiveButton": "Archive & export",
+    "archiveDescription": "Download everything, then Foghorn goes quiet. Your data is saved \u2014 you can always come back.",
+    "deleteButton": "Delete everything",
+    "deleteDescription": "Export your data first, then clear it all. A clean goodbye.",
+    "deleteConfirm": "Are you sure? This will remove all rituals, notes, and reflections from this device.",
+    "archiving": "Archiving...",
+    "archived": "Archived",
+    "deleting": "Deleting...",
+    "deleted": "Goodbye. Take care."
   },
   "phase": {
     "label": "Where are you?",
@@ -225,7 +239,8 @@
     "title": "Something went wrong",
     "message": "Foghorn hit an unexpected problem. Your data is safe — everything is stored on your device. You can try again or reload the page.",
     "tryAgain": "Try again",
-    "reload": "Reload page"
+    "reload": "Reload page",
+    "details": "Error details"
   },
   "locationConsent": {
     "prompt": "Foghorn checks the weather where you are. Your location is sent to OpenWeatherMap and nowhere else. Allow?",

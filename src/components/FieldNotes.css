@@ -22,7 +22,7 @@
 }
 
 .field-notes__title {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-normal);
   color: var(--color-text-primary);

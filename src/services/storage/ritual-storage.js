@@ -199,13 +199,15 @@ export async function deleteAllRituals() {
 }
 
 /**
- * Export all rituals + check-ins as JSON (for backup/portability)
+ * Export all rituals + check-ins + field notes as JSON (for backup/portability)
  * @returns {Promise<string>} JSON string of all data
  */
 export async function exportRituals() {
-  const rituals  = await getAllRituals();
-  const checkins = JSON.parse(localStorage.getItem('foghorn_checkins') || '[]');
-  return JSON.stringify({ rituals, checkins }, null, 2);
+  const { getAllNotes } = await import('./field-notes-storage.js');
+  const rituals    = await getAllRituals();
+  const checkins   = JSON.parse(localStorage.getItem('foghorn_checkins') || '[]');
+  const fieldNotes = await getAllNotes();
+  return JSON.stringify({ rituals, checkins, fieldNotes }, null, 2);
 }
 
 /**

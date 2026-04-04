@@ -18,7 +18,7 @@ const VALID_LOSS_TYPES = ['person', 'relationship', 'self', 'place', 'multiple']
  * @returns {Object} Ritual record
  */
 export function createRitual(weather, foghornPlayed, intensity = null, lossType = null, duration = null, notes = null, phase = null, timestamp = null) {
-  const VALID_PHASES = ['active', 'processing', 'integration', 'memorial']
+  const VALID_PHASES = ['active', 'processing', 'integration', 'memorial', 'exit']
   return {
     id: generateRitualId(),
     timestamp: timestamp || new Date().toISOString(),

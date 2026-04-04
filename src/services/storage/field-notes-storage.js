@@ -77,3 +77,17 @@ export async function deleteNote(id) {
     request.onerror   = () => reject(new Error('Failed to delete note'));
   });
 }
+
+/**
+ * Delete ALL field notes (for exit/cleanup)
+ * @returns {Promise<void>}
+ */
+export async function deleteAllNotes() {
+  const database = await initDB();
+  return new Promise((resolve, reject) => {
+    const tx      = database.transaction([STORE], 'readwrite');
+    const request = tx.objectStore(STORE).clear();
+    request.onsuccess = () => resolve();
+    request.onerror   = () => reject(new Error('Failed to clear notes'));
+  });
+}

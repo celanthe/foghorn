@@ -17,7 +17,7 @@
 }
 
 .settings__title {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-normal);
   color: var(--color-text-primary);
@@ -311,6 +311,140 @@
   box-shadow: var(--focus-ring);
 }
 
+/* ==================== */
+/* Moving On — Exit strategies */
+/* ==================== */
+
+.settings__section--moving-on {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--border-color-subtle);
+  opacity: 0.85;
+}
+
+.settings__section-title--moving-on {
+  color: var(--color-text-tertiary);
+}
+
+.settings__moving-on-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-md);
+}
+
+.settings__exit-option {
+  margin-bottom: var(--space-md);
+}
+
+.settings__exit-option:last-child {
+  margin-bottom: 0;
+}
+
+.settings__exit-btn {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: opacity var(--transition-fast), border-color var(--transition-base);
+}
+
+.settings__exit-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.settings__exit-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.settings__exit-btn--archive {
+  background: none;
+  border: var(--border-width-thin) solid var(--border-color-medium);
+  color: var(--color-text-secondary);
+}
+
+.settings__exit-btn--archive:hover:not(:disabled) {
+  border-color: var(--color-text-secondary);
+  color: var(--color-text-primary);
+}
+
+.settings__exit-btn--delete {
+  background: none;
+  border: var(--border-width-thin) solid var(--border-color-subtle);
+  color: var(--color-text-tertiary);
+}
+
+.settings__exit-btn--delete:hover:not(:disabled) {
+  border-color: var(--color-gentle-alert);
+  color: var(--color-gentle-alert);
+}
+
+.settings__exit-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-relaxed);
+  margin-top: var(--space-xs);
+}
+
+.settings__exit-farewell {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-base);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-md) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+/* Delete confirmation dialog */
+.settings__delete-confirm {
+  padding: var(--space-md);
+  background: var(--color-morning-fog);
+  border: var(--border-width-thin) solid var(--border-color-medium);
+  border-radius: var(--radius-md);
+}
+
+.settings__delete-confirm-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-md);
+}
+
+.settings__delete-confirm-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.settings__exit-btn--delete-confirm {
+  flex: 1;
+  background: none;
+  border: var(--border-width-thin) solid var(--color-gentle-alert);
+  color: var(--color-gentle-alert);
+}
+
+.settings__exit-btn--delete-confirm:hover {
+  background: rgba(139, 56, 32, 0.06);
+}
+
+.settings__exit-btn--cancel {
+  flex: 1;
+  background: none;
+  border: var(--border-width-thin) solid var(--border-color-medium);
+  color: var(--color-text-secondary);
+}
+
+.settings__exit-btn--cancel:hover {
+  border-color: var(--color-text-secondary);
+  color: var(--color-text-primary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .settings {
     animation: none;
@@ -318,7 +452,8 @@
 
   .settings__close,
   .settings__checkin-btn,
-  .settings__save {
+  .settings__save,
+  .settings__exit-btn {
     transition: none;
   }
 

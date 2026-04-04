@@ -86,7 +86,7 @@ src/                React components
 - `--color-soft-white` - Surface, cards
 
 ### Typography
-- Headers: `--font-family-serif` (Georgia - timeless)
+- Headers: `--font-family-display` (Atkinson Hyperlegible - dyslexia-friendly)
 - Body: `--font-family-sans` (System font - clean, readable)
 
 ### Spacing

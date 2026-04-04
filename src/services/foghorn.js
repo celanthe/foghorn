@@ -36,7 +36,7 @@ export async function loadFoghorn(audioPath) {
     const arrayBuffer = await response.arrayBuffer();
     audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
   } catch (error) {
-    console.error('[foghorn] Failed to load audio:', error);
+    if (import.meta.env.DEV) console.error('[foghorn] Failed to load audio:', error);
     throw new Error('Could not load foghorn audio');
   }
 }
